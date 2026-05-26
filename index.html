@@ -1931,6 +1931,372 @@
     max-width: 1200px;
     margin: 0 auto;
   }
+
+  /* ── MOBILE MENU TOGGLE DEFAULT ── */
+  .menu-toggle-btn {
+    display: none;
+  }
+  .nav-mobile-cta {
+    display: none;
+  }
+
+  /* ── MOBILE RESPONSIVENESS & MEDIA QUERIES ── */
+  @media (max-width: 992px) {
+    /* Top bar adjustments */
+    .topbar {
+      padding: 8px 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+    .topbar-socials {
+      display: none;
+    }
+    .topbar-right {
+      width: 100%;
+      margin-top: 4px;
+    }
+    .topbar-search {
+      width: 100%;
+      min-width: unset;
+    }
+
+    /* Navbar styling */
+    .navbar {
+      padding: 0 16px;
+      height: 64px;
+    }
+    .nav-logo-text {
+      font-size: 18px;
+    }
+    .nav-logo-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+    }
+    .nav-logo-circle svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Hamburger Menu Toggle Button */
+    .menu-toggle-btn {
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--brand-light);
+      color: var(--brand);
+      cursor: pointer;
+      margin-left: 12px;
+      transition: var(--transition);
+      z-index: 101;
+      font-size: 20px;
+    }
+    .menu-toggle-btn:hover {
+      background: var(--brand);
+      color: var(--white);
+    }
+
+    /* Mobile Nav Drawer */
+    .nav-links {
+      position: fixed;
+      top: 64px;
+      left: -105%;
+      width: 300px;
+      height: calc(100vh - 64px);
+      background: var(--white);
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      padding: 24px 20px;
+      gap: 4px;
+      box-shadow: var(--shadow-lg);
+      border-right: 1px solid var(--border);
+      transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 99;
+      overflow-y: auto;
+    }
+    .nav-links.open {
+      left: 0;
+    }
+    .nav-item {
+      width: 100%;
+      height: auto;
+    }
+    .nav-item > a, .nav-item > span {
+      padding: 12px 0;
+      height: auto;
+      border-bottom: none !important;
+      width: 100%;
+      justify-content: space-between;
+      font-size: 15px;
+    }
+    .nav-chevron {
+      transition: transform 0.3s;
+    }
+    .nav-item.active-dropdown .nav-chevron {
+      transform: rotate(180deg) !important;
+    }
+    .nav-dropdown {
+      position: static;
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      box-shadow: none;
+      border: none;
+      border-left: 2px solid var(--border);
+      padding: 4px 0 4px 16px;
+      margin-left: 4px;
+      display: none;
+      min-width: unset;
+      width: 100%;
+    }
+    .nav-dropdown.open {
+      display: block;
+    }
+    .nav-dropdown a {
+      padding: 8px 0;
+      font-size: 13.5px;
+    }
+    .nav-dropdown a:hover {
+      padding-left: 8px;
+    }
+    .nav-bookstore {
+      width: 100%;
+      margin: 12px 0 0 0 !important;
+      box-sizing: border-box;
+    }
+    .navbar .nav-cta {
+      display: none; /* Hide header CTA */
+    }
+    .nav-mobile-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--brand-dark);
+      color: var(--white);
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 16px;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      box-sizing: border-box;
+    }
+    .nav-mobile-cta:hover {
+      background: var(--accent);
+    }
+
+    /* Modal Layout Override */
+    #book-modal-body {
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 16px !important;
+      text-align: center !important;
+    }
+
+    /* Hero section */
+    .hero {
+      grid-template-columns: 1fr;
+      min-height: auto;
+      text-align: center;
+    }
+    .hero-left {
+      padding: 48px 24px;
+      align-items: center;
+    }
+    .hero-desc {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero-btns {
+      justify-content: center;
+    }
+    .hero-right {
+      padding: 0 24px 48px;
+    }
+    .book-mockup {
+      transform: none !important;
+      width: 180px;
+      height: 250px;
+    }
+    .book-mockup:hover {
+      transform: scale(1.05) !important;
+    }
+
+    /* Features Strip */
+    .features-strip {
+      flex-direction: column;
+      gap: 20px;
+      padding: 24px;
+      align-items: flex-start;
+    }
+    .feat-item {
+      width: 100%;
+    }
+
+    /* Content Grid */
+    .content-grid {
+      grid-template-columns: 1fr;
+    }
+    .main-col {
+      padding: 32px 20px;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar {
+      padding: 32px 20px;
+    }
+    .cards-row {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    /* Recently Published grid */
+    .books-section {
+      padding: 32px 20px;
+    }
+    .books-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .books-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    /* Contact Section */
+    .contact-section {
+      padding: 32px 20px;
+    }
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    /* About Us Panel */
+    .about-container {
+      padding: 32px 20px;
+    }
+    .about-header h2 {
+      font-size: 28px;
+    }
+    .about-tabs {
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .about-tab-btn {
+      font-size: 15px;
+      padding: 6px 16px;
+    }
+    .about-tab-panel.active {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .team-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    /* Writers section */
+    .writers-container {
+      padding: 32px 20px;
+    }
+    .roadmap-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .submission-wizard {
+      padding: 24px 16px;
+    }
+
+    /* Royalty Calculator */
+    .calc-container {
+      padding: 32px 20px;
+    }
+    .calc-grid {
+      grid-template-columns: 1fr;
+    }
+    .calc-left {
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      padding: 24px;
+    }
+    .calc-right {
+      padding: 24px;
+    }
+
+    /* Bookstore */
+    .store-container {
+      padding: 32px 20px;
+    }
+    .store-controls {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 16px;
+    }
+    .filter-pills {
+      overflow-x: auto;
+      white-space: nowrap;
+      padding-bottom: 8px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .store-search {
+      width: 100%;
+    }
+
+    /* Blog */
+    .blog-container {
+      padding: 32px 20px;
+    }
+    .blog-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 48px 20px 24px;
+    }
+    .footer-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .books-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .team-grid {
+      grid-template-columns: 1fr;
+    }
+    .roadmap-grid {
+      grid-template-columns: 1fr;
+    }
+    .blog-grid {
+      grid-template-columns: 1fr;
+    }
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .modal-content {
+      padding: 24px 16px;
+    }
+    .cart-drawer {
+      width: 100%;
+      right: -100%;
+    }
+  }
 </style>
 </head>
 <body>
@@ -2020,6 +2386,9 @@
 
     <!-- Book Store Button -->
     <a href="#" onclick="showPage('view-bookstore')" class="nav-bookstore">Book Store</a>
+    <div class="nav-mobile-cta" onclick="showPage('view-writers', 'wizard-section'); toggleMobileMenu();">
+      <i class="ti ti-books"></i> Start Publishing
+    </div>
   </div>
 
   <div style="display:flex; align-items:center;">
@@ -2029,6 +2398,9 @@
     <div class="cart-icon-btn" onclick="toggleCart()">
       <i class="ti ti-shopping-cart" style="font-size: 20px;"></i>
       <div class="cart-badge" id="cart-badge-count">0</div>
+    </div>
+    <div class="menu-toggle-btn" onclick="toggleMobileMenu()">
+      <i class="ti ti-menu-2"></i>
     </div>
   </div>
 </nav>
@@ -3576,6 +3948,42 @@
     `;
     toggleModal('blog-reader-modal', true);
   }
+
+  /* ── MOBILE MENU ACTIONS ── */
+  function toggleMobileMenu() {
+    const navLinks = document.querySelector('.nav-links');
+    navLinks.classList.toggle('open');
+    const icon = document.querySelector('.menu-toggle-btn i');
+    if (navLinks.classList.contains('open')) {
+      icon.className = 'ti ti-x';
+    } else {
+      icon.className = 'ti ti-menu-2';
+    }
+  }
+
+  // Close mobile menu when a simple link inside is clicked
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      const navLinks = document.querySelector('.nav-links');
+      if (navLinks.classList.contains('open') && !link.nextElementSibling) {
+        toggleMobileMenu();
+      }
+    });
+  });
+
+  // Toggle dropdown submenus inside the mobile menu
+  document.querySelectorAll('.nav-item > span').forEach(span => {
+    span.addEventListener('click', (e) => {
+      if (window.innerWidth <= 992) {
+        const dropdown = span.nextElementSibling;
+        const navItem = span.parentElement;
+        if (dropdown && dropdown.classList.contains('nav-dropdown')) {
+          dropdown.classList.toggle('open');
+          navItem.classList.toggle('active-dropdown');
+        }
+      }
+    });
+  });
 
   /* ── INITIALIZATION ── */
   window.addEventListener('DOMContentLoaded', () => {

@@ -2,7 +2,8 @@
   "name": "orangebooks-starter",
   "version": "1.0.0",
   "scripts": {
-    "dev": "vite"
+    "dev": "vite",
+    "build": "vite build"
   },
   "devDependencies": {
     "vite": "^5.2.0"

@@ -1,0 +1,3588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sead Publication — Elite Publishing Services</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* ── DESIGN SYSTEM & CSS VARIABLES ── */
+  :root {
+    --brand: #0d5c5a;          /* Premium Oceanic Teal */
+    --brand-dark: #073b3a;     /* Deep Abyssal Teal */
+    --brand-light: #f2f7f7;    /* Soft Pearl/Seafoam */
+    --accent: #c48a30;         /* Muted Warm Gold */
+    --accent-hover: #a87524;
+    --text: #1b2626;           /* Deep Slate Gray */
+    --muted: #5a6e6e;
+    --border: #e0e9e9;
+    --bg-warm: #faf9f6;        /* Warm Sand Background */
+    --white: #ffffff;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --shadow-sm: 0 2px 8px rgba(13, 92, 90, 0.05);
+    --shadow-md: 0 8px 24px rgba(13, 92, 90, 0.08);
+    --shadow-lg: 0 16px 40px rgba(13, 92, 90, 0.12);
+  }
+
+  #announcements-panel.active, #events-panel.active {
+    display: block !important;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg-warm);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: var(--brand-dark);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bg-warm);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--brand);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--brand-dark);
+  }
+
+  /* ── TOP UTILITY BAR ── */
+  .topbar {
+    background: var(--brand);
+    padding: 8px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    position: relative;
+    z-index: 150;
+  }
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .topbar-chat {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: var(--white);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .topbar-chat:hover {
+    background: rgba(255, 255, 255, 0.22);
+    transform: translateY(-1px);
+  }
+  .topbar-lang {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: var(--white);
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .topbar-lang:hover {
+    background: rgba(255, 255, 255, 0.22);
+  }
+  .topbar-socials {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .topbar-socials a {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 16px;
+    transition: var(--transition);
+  }
+  .topbar-socials a:hover {
+    color: var(--accent);
+    transform: scale(1.15);
+  }
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .topbar-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--white);
+    border-radius: 20px;
+    padding: 5px 14px;
+    min-width: 200px;
+    box-shadow: var(--shadow-sm);
+  }
+  .topbar-search input {
+    border: none;
+    outline: none;
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    background: transparent;
+    width: 100%;
+  }
+  .topbar-search i {
+    color: var(--muted);
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+
+  /* ── MAIN NAVBAR ── */
+  .navbar {
+    background: var(--white);
+    padding: 0 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+  }
+  .nav-logo-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+  }
+  .nav-logo:hover .nav-logo-circle {
+    transform: rotate(5deg) scale(1.05);
+    background: var(--brand-dark);
+  }
+  .nav-logo-circle svg {
+    width: 24px;
+    height: 24px;
+  }
+  .nav-logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--brand-dark);
+  }
+  .nav-logo-text span {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    display: block;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 72px;
+  }
+  .nav-item {
+    position: relative;
+    height: 100%;
+  }
+  .nav-item > a, .nav-item > span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 16px;
+    height: 100%;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: var(--transition);
+    border-bottom: 3px solid transparent;
+  }
+  .nav-item:hover > a, .nav-item:hover > span, .nav-item.active > a, .nav-item.active > span {
+    color: var(--brand);
+    border-bottom-color: var(--brand);
+  }
+  .nav-item > a.active-nav {
+    color: var(--brand) !important;
+    border-bottom-color: var(--brand) !important;
+  }
+  .nav-chevron {
+    font-size: 11px;
+    color: var(--muted);
+    transition: var(--transition);
+  }
+  .nav-item:hover .nav-chevron {
+    transform: rotate(180deg);
+    color: var(--brand);
+  }
+  .nav-dropdown {
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    position: absolute;
+    top: calc(100% + 1px);
+    left: 0;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    padding: 10px 0;
+    min-width: 220px;
+    z-index: 200;
+    transition: var(--transition);
+  }
+  .nav-item:hover .nav-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .nav-dropdown a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 20px;
+    font-size: 13.5px;
+    color: var(--text);
+    transition: var(--transition);
+  }
+  .nav-dropdown a:hover {
+    background: var(--brand-light);
+    color: var(--brand);
+    padding-left: 24px;
+  }
+  .nav-dropdown a i {
+    font-size: 16px;
+    color: var(--accent);
+    width: 20px;
+    flex-shrink: 0;
+  }
+  .nav-dropdown-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 6px 0;
+  }
+  .nav-bookstore {
+    border: 1.5px solid var(--brand);
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-weight: 600;
+    color: var(--brand);
+    transition: var(--transition);
+    margin: 0 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .nav-bookstore:hover {
+    background: var(--brand);
+    color: var(--white);
+  }
+  .nav-cta {
+    background: var(--brand-dark);
+    color: var(--white);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    flex-shrink: 0;
+  }
+  .nav-cta:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  .cart-icon-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--brand-light);
+    color: var(--brand);
+    cursor: pointer;
+    margin-left: 12px;
+    transition: var(--transition);
+  }
+  .cart-icon-btn:hover {
+    background: var(--brand);
+    color: var(--white);
+  }
+  .cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--accent);
+    color: var(--white);
+    font-size: 10px;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    border: 2px solid var(--white);
+  }
+
+  /* ── PAGE LAYOUT ROUTER ── */
+  .page-view {
+    display: none;
+    animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .page-view.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── HERO ── */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 420px;
+    background: linear-gradient(135deg, #093c3b 0%, #0d5c5a 50%, #20766e 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 0l40 40-40 40L0 40z' fill='%23ffffff' fill-opacity='0.02' fill-rule='evenodd'/%3E%3C/svg%3E");
+    opacity: 0.6;
+  }
+  .hero-left {
+    padding: 64px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 2;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(196, 138, 48, 0.15);
+    border: 1px solid rgba(196, 138, 48, 0.35);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    width: fit-content;
+    text-transform: uppercase;
+  }
+  .hero-title {
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+  .hero-title .accent {
+    color: var(--accent);
+  }
+  .hero-sub {
+    font-size: 18px;
+    color: var(--brand-light);
+    font-weight: 400;
+    margin-bottom: 20px;
+  }
+  .hero-desc {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.8;
+    margin-bottom: 32px;
+    max-width: 480px;
+  }
+  .hero-btns {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--white);
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-primary:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--white);
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--white);
+    transform: translateY(-2px);
+  }
+  .hero-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    z-index: 2;
+  }
+  .book-mockup-wrapper {
+    perspective: 1000px;
+  }
+  .book-mockup {
+    background: var(--white);
+    border-radius: 8px 16px 16px 8px;
+    width: 220px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 15px 20px 50px rgba(0,0,0,0.3), -2px 0 0 rgba(255,255,255,0.4);
+    position: relative;
+    transform: rotateY(-18deg) rotateX(10deg);
+    transition: var(--transition);
+    transform-style: preserve-3d;
+  }
+  .book-mockup:hover {
+    transform: rotateY(-5deg) rotateX(5deg) scale(1.03);
+    box-shadow: 20px 25px 60px rgba(0,0,0,0.35);
+  }
+  .book-spine {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 18px;
+    background: linear-gradient(90deg, #d3c4a9 0%, #baa887 50%, #a89470 100%);
+    border-radius: 8px 0 0 8px;
+    box-shadow: inset -3px 0 5px rgba(0,0,0,0.15);
+  }
+  .book-content {
+    text-align: center;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+  }
+  .book-s {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 2px solid var(--brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--brand);
+    margin: 12px auto;
+  }
+  .book-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--brand-dark);
+    line-height: 1.3;
+  }
+  .book-subtitle {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  /* ── FEATURES STRIP ── */
+  .features-strip {
+    background: var(--brand-dark);
+    padding: 24px 48px;
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    box-shadow: inset 0 8px 24px rgba(0,0,0,0.15);
+  }
+  .feat-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .feat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-sm);
+  }
+  .feat-text {
+    font-size: 12.5px;
+  }
+  .feat-text strong {
+    display: block;
+    color: var(--white);
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+
+  /* ── CONTENT GRID ── */
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 0;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+  }
+  .main-col {
+    padding: 56px 48px;
+    border-right: 1px solid var(--border);
+  }
+
+  /* ── INFO CARDS ── */
+  .cards-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 48px;
+  }
+  .info-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+  }
+  .info-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--brand);
+  }
+  .info-card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--brand);
+    margin-bottom: 10px;
+    font-family: 'Playfair Display', serif;
+  }
+  .info-card-body {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── SECTION TITLE ── */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--brand-dark);
+    margin-bottom: 8px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--accent);
+    display: inline-block;
+  }
+
+  /* ── OVERVIEW ── */
+  .overview-section {
+    margin-bottom: 48px;
+  }
+  .overview-section p {
+    font-size: 14.5px;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+  .overview-section p strong {
+    color: var(--brand-dark);
+    font-weight: 600;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    padding: 40px 24px;
+    background: #fbfbf9;
+  }
+  .sidebar-cta {
+    background: var(--brand-dark);
+    border-radius: 16px;
+    padding: 28px 24px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+  }
+  .sidebar-cta::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid rgba(196, 138, 48, 0.2);
+  }
+  .sidebar-cta::after {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    right: 10px;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 2px solid rgba(196, 138, 48, 0.1);
+  }
+  .sidebar-pill {
+    background: rgba(196, 138, 48, 0.15);
+    color: var(--accent);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+  .sidebar-cta h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--white);
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 12px;
+  }
+  .sidebar-cta p {
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+  .sidebar-btn {
+    background: var(--accent);
+    color: var(--white);
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: var(--transition);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .sidebar-btn:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+  }
+  .sidebar-note {
+    background: var(--brand-light);
+    border-radius: 10px;
+    padding: 16px;
+    border: 1px solid var(--border);
+  }
+  .sidebar-note p {
+    font-size: 12px;
+    color: var(--brand-dark);
+    line-height: 1.6;
+  }
+
+  /* ── FAQ ── */
+  .faq-section {
+    margin-bottom: 24px;
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .faq-q {
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 18px 0;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--brand-dark);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'DM Sans', sans-serif;
+    transition: var(--transition);
+  }
+  .faq-q:hover {
+    color: var(--accent);
+  }
+  .faq-chevron {
+    font-size: 20px;
+    color: var(--brand);
+    transition: var(--transition);
+    display: inline-block;
+    line-height: 1;
+  }
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .faq-a.open {
+    max-height: 250px;
+  }
+  .faq-a p {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.7;
+    padding-bottom: 18px;
+  }
+
+  /* ── BOOKS CATALOG / RECENTLY PUBLISHED ── */
+  .books-section {
+    background: var(--bg-warm);
+    padding: 56px 48px;
+    border-top: 1px solid var(--border);
+  }
+  .books-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+  }
+  .books-title {
+    font-size: 24px;
+    font-weight: 700;
+  }
+  .books-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+  }
+  .book-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .book-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--brand);
+  }
+  .book-cover-img {
+    width: 100%;
+    aspect-ratio: 2/3;
+    border-radius: 6px;
+    object-fit: cover;
+    margin-bottom: 12px;
+    box-shadow: 2px 4px 10px rgba(0,0,0,0.15);
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .book-cover-img:hover {
+    transform: scale(1.03);
+  }
+  .book-card-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--brand-dark);
+    line-height: 1.4;
+    margin-bottom: 4px;
+    min-height: 36px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .book-card-author {
+    font-size: 10.5px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .book-card-price {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--brand);
+    margin-bottom: 12px;
+  }
+  .order-btn {
+    background: var(--brand);
+    color: var(--white);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+  .order-btn:hover {
+    background: var(--accent);
+  }
+
+  /* ── FEATURED IN BAR ── */
+  .featured-bar {
+    padding: 32px 48px;
+    text-align: center;
+    background: var(--white);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .featured-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 18px;
+    font-weight: 600;
+  }
+  .logos-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+  .logo-item {
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(27, 38, 38, 0.4);
+    letter-spacing: 1px;
+    transition: var(--transition);
+  }
+  .logo-item:hover {
+    color: var(--brand);
+  }
+
+  /* ── CONTACT & GUIDANCE ── */
+  .contact-section {
+    padding: 56px 48px;
+    background: var(--white);
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .contact-left h2 {
+    font-size: 32px;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .contact-left p {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 28px;
+    line-height: 1.8;
+  }
+  .contact-badge-pill {
+    display: inline-block;
+    background: var(--brand-light);
+    color: var(--brand);
+    font-size: 11px;
+    padding: 6px 14px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+  }
+  .contact-detail {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 18px;
+    font-size: 13.5px;
+  }
+  .contact-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--brand-light);
+    color: var(--brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+  }
+  .contact-form {
+    background: var(--bg-warm);
+    border-radius: 16px;
+    padding: 32px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+  }
+  .role-pills {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .role-pill {
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    background: var(--white);
+    color: var(--muted);
+    transition: var(--transition);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .role-pill.selected {
+    background: var(--brand);
+    color: var(--white);
+    border-color: var(--brand);
+    box-shadow: var(--shadow-sm);
+  }
+  .form-input, .form-select, .form-textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--text);
+    margin-bottom: 16px;
+    outline: none;
+    transition: var(--transition);
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px rgba(13, 92, 90, 0.15);
+  }
+  .submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--brand-dark);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: var(--transition);
+  }
+  .submit-btn:hover {
+    background: var(--accent);
+    transform: translateY(-1px);
+  }
+  .maps-btn {
+    margin-top: 24px;
+    border: 1px solid var(--border);
+    background: var(--white);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .maps-btn:hover {
+    background: var(--brand-light);
+    border-color: var(--brand);
+    color: var(--brand);
+  }
+
+  /* ── VIEW: ABOUT US ── */
+  .about-container {
+    padding: 56px 48px;
+    background: var(--white);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .about-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .about-header h2 {
+    font-size: 38px;
+    margin-bottom: 12px;
+  }
+  .about-header p {
+    color: var(--muted);
+    font-size: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .about-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 36px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 16px;
+  }
+  .about-tab-btn {
+    background: none;
+    border: none;
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 8px 24px;
+    border-radius: 20px;
+    transition: var(--transition);
+  }
+  .about-tab-btn.active {
+    background: var(--brand-light);
+    color: var(--brand);
+  }
+  .about-tab-panel {
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+  .about-tab-panel.active {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .about-panel-text p {
+    font-size: 14.5px;
+    color: var(--text);
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+  .about-panel-img {
+    width: 100%;
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border);
+  }
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .team-card {
+    text-align: center;
+    padding: 28px;
+    background: var(--bg-warm);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+  }
+  .team-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--brand);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin: 0 auto 16px;
+    box-shadow: var(--shadow-sm);
+  }
+  .team-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--brand-dark);
+    margin-bottom: 4px;
+  }
+  .team-role {
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* ── VIEW: FOR WRITERS & SUBMISSION ── */
+  .writers-container {
+    padding: 56px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .roadmap-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin: 40px 0 56px;
+  }
+  .roadmap-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 28px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    transition: var(--transition);
+  }
+  .roadmap-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--brand);
+  }
+  .roadmap-num {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-size: 40px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: rgba(13, 92, 90, 0.1);
+  }
+  .roadmap-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--brand);
+    margin-bottom: 12px;
+    font-family: 'Playfair Display', serif;
+  }
+  .roadmap-desc {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .submission-wizard {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 48px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .wizard-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .wizard-progress {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: 40px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .wizard-progress::before {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--border);
+    z-index: 1;
+  }
+  .wizard-progress-bar {
+    position: absolute;
+    top: 15px;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: var(--brand);
+    z-index: 2;
+    transition: var(--transition);
+  }
+  .wizard-step-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 3px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    z-index: 3;
+    transition: var(--transition);
+  }
+  .wizard-step-dot.active {
+    border-color: var(--brand);
+    color: var(--brand);
+  }
+  .wizard-step-dot.completed {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: var(--white);
+  }
+  .wizard-step {
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+  .wizard-step.active {
+    display: block;
+  }
+  .wizard-btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .btn-prev {
+    background: var(--brand-light);
+    color: var(--brand);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13.5px;
+    transition: var(--transition);
+  }
+  .btn-prev:hover {
+    background: var(--border);
+  }
+  .upload-box {
+    border: 2px dashed var(--brand);
+    border-radius: 12px;
+    padding: 36px;
+    text-align: center;
+    background: var(--bg-warm);
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .upload-box:hover {
+    background: var(--brand-light);
+  }
+  .upload-icon {
+    font-size: 32px;
+    color: var(--brand);
+    margin-bottom: 12px;
+  }
+
+  /* ── VIEW: ROYALTY CALCULATOR ── */
+  .calc-container {
+    padding: 56px 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 40px;
+    background: var(--white);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+  .calc-left {
+    padding: 48px;
+    border-right: 1px solid var(--border);
+  }
+  .calc-right {
+    padding: 48px;
+    background: #f8fbfb;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .slider-group {
+    margin-bottom: 28px;
+  }
+  .slider-label-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--brand-dark);
+  }
+  .slider-label-row span.val {
+    color: var(--accent);
+    font-size: 15px;
+  }
+  .calc-slider {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    outline: none;
+  }
+  .calc-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--brand);
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+  }
+  .calc-slider::-webkit-slider-thumb:hover {
+    background: var(--accent);
+    transform: scale(1.15);
+  }
+  .binding-selects {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .binding-card {
+    flex: 1;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition);
+    background: var(--white);
+  }
+  .binding-card.selected {
+    border-color: var(--brand);
+    background: var(--brand-light);
+    color: var(--brand);
+  }
+  .calc-metrics-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    margin-top: 20px;
+  }
+  .metric-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 13.5px;
+  }
+  .metric-row.total {
+    border-top: 1.5px dashed var(--border);
+    padding-top: 14px;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--brand-dark);
+  }
+
+  /* ── VIEW: BOOKSTORE ── */
+  .store-container {
+    padding: 56px 48px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  .store-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 36px;
+    gap: 20px;
+  }
+  .filter-pills {
+    display: flex;
+    gap: 8px;
+  }
+  .filter-pill {
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .filter-pill.active {
+    background: var(--brand);
+    color: var(--white);
+    border-color: var(--brand);
+  }
+  .store-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    min-width: 280px;
+    box-shadow: var(--shadow-sm);
+  }
+  .store-search input {
+    border: none;
+    outline: none;
+    font-size: 13.5px;
+    font-family: 'DM Sans', sans-serif;
+    width: 100%;
+  }
+
+  /* ── SHOPPING CART DRAWER ── */
+  .cart-drawer {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 400px;
+    height: 100%;
+    background: var(--white);
+    box-shadow: -10px 0 40px rgba(0,0,0,0.15);
+    z-index: 500;
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .cart-drawer.open {
+    right: 0;
+  }
+  .cart-header {
+    padding: 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .cart-close-btn {
+    font-size: 22px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .cart-close-btn:hover {
+    color: var(--text);
+  }
+  .cart-items-container {
+    padding: 24px;
+    overflow-y: auto;
+    flex-grow: 1;
+  }
+  .cart-item {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cart-item-img {
+    width: 50px;
+    aspect-ratio: 2/3;
+    border-radius: 4px;
+    object-fit: cover;
+    box-shadow: var(--shadow-sm);
+  }
+  .cart-item-details {
+    flex-grow: 1;
+  }
+  .cart-item-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--brand-dark);
+    margin-bottom: 2px;
+  }
+  .cart-item-author {
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .cart-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .cart-qty-select {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .cart-qty-btn {
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: var(--bg-warm);
+    cursor: pointer;
+    font-weight: 700;
+    transition: var(--transition);
+  }
+  .cart-qty-btn:hover {
+    background: var(--border);
+  }
+  .cart-qty-val {
+    padding: 0 8px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .cart-footer {
+    padding: 24px;
+    border-top: 1px solid var(--border);
+    background: #fbfbf9;
+  }
+  .cart-subtotal-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--brand-dark);
+    margin-bottom: 16px;
+  }
+  .drawer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(7, 59, 58, 0.4);
+    backdrop-filter: blur(4px);
+    z-index: 400;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+  }
+  .drawer-overlay.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* ── VIEW: BLOG ── */
+  .blog-container {
+    padding: 56px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  .blog-card {
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    transition: var(--transition);
+  }
+  .blog-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+  }
+  .blog-card-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+  .blog-card-content {
+    padding: 24px;
+  }
+  .blog-date {
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .blog-card h3 {
+    font-size: 18px;
+    line-height: 1.3;
+    margin-bottom: 12px;
+  }
+  .blog-excerpt {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 18px;
+  }
+  .blog-link {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--brand);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: var(--transition);
+  }
+  .blog-link:hover {
+    color: var(--accent);
+    padding-left: 4px;
+  }
+
+  /* ── MODALS ── */
+  .modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(7, 59, 58, 0.45);
+    backdrop-filter: blur(4px);
+    z-index: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+  }
+  .modal.open {
+    opacity: 1;
+    visibility: visible;
+  }
+  .modal-content {
+    background: var(--white);
+    border-radius: 20px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border);
+    max-width: 600px;
+    width: 90%;
+    padding: 36px;
+    position: relative;
+    transform: translateY(20px);
+    transition: var(--transition);
+  }
+  .modal.open .modal-content {
+    transform: translateY(0);
+  }
+  .modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 20px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .modal-close:hover {
+    color: var(--text);
+  }
+
+  /* ── CHAT FLOATING BUTTON & BOX ── */
+  .chat-btn {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--brand);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: var(--shadow-lg);
+    cursor: pointer;
+    z-index: 300;
+    transition: var(--transition);
+  }
+  .chat-btn:hover {
+    transform: translateY(-4px) scale(1.05);
+    background: var(--accent);
+  }
+  .chat-box {
+    position: fixed;
+    bottom: 100px;
+    right: 32px;
+    width: 350px;
+    height: 480px;
+    background: var(--white);
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border);
+    z-index: 300;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: var(--transition);
+  }
+  .chat-box.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .chat-box-header {
+    background: var(--brand);
+    color: var(--white);
+    padding: 16px 20px;
+    border-radius: 16px 16px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .chat-box-body {
+    padding: 16px;
+    overflow-y: auto;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .chat-msg {
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    max-width: 80%;
+  }
+  .chat-msg.bot {
+    background: var(--brand-light);
+    color: var(--brand-dark);
+    align-self: flex-start;
+  }
+  .chat-msg.user {
+    background: var(--accent);
+    color: var(--white);
+    align-self: flex-end;
+  }
+  .chat-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .chat-opt-btn {
+    background: var(--white);
+    border: 1px solid var(--brand);
+    color: var(--brand);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .chat-opt-btn:hover {
+    background: var(--brand);
+    color: var(--white);
+  }
+  .chat-box-footer {
+    padding: 12px 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+  }
+  .chat-input {
+    flex-grow: 1;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 8px 14px;
+    font-size: 12.5px;
+    outline: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .chat-send-btn {
+    background: var(--brand);
+    color: var(--white);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+  }
+  .chat-send-btn:hover {
+    background: var(--accent);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--brand-dark);
+    color: rgba(255,255,255,0.7);
+    padding: 64px 48px 32px;
+    border-top: 2px solid var(--accent);
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto 48px;
+  }
+  .footer-col h4 {
+    color: var(--white);
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  .footer-links {
+    list-style: none;
+  }
+  .footer-links li {
+    margin-bottom: 12px;
+  }
+  .footer-links a {
+    font-size: 13.5px;
+    transition: var(--transition);
+  }
+  .footer-links a:hover {
+    color: var(--accent);
+    padding-left: 4px;
+  }
+  .footer-bottom {
+    text-align: center;
+    font-size: 12px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP UTILITY BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="topbar-chat" onclick="toggleChatBox()">
+      <i class="ti ti-brand-whatsapp"></i> Chat with Expert
+    </div>
+    <div class="topbar-lang">
+      <i class="ti ti-language"></i> English
+      <i class="ti ti-chevron-down"></i>
+    </div>
+  </div>
+  <div class="topbar-socials">
+    <a href="#"><i class="ti ti-brand-linkedin"></i></a>
+    <a href="#"><i class="ti ti-brand-instagram"></i></a>
+    <a href="#"><i class="ti ti-brand-x"></i></a>
+    <a href="#"><i class="ti ti-brand-youtube"></i></a>
+    <a href="#"><i class="ti ti-brand-facebook"></i></a>
+  </div>
+  <div class="topbar-right">
+    <div class="topbar-search">
+      <i class="ti ti-search"></i>
+      <input type="text" placeholder="Search Services..." onkeypress="handleSearch(event)">
+    </div>
+  </div>
+</div>
+
+<!-- MAIN NAVBAR -->
+<nav class="navbar">
+  <a href="#" class="nav-logo" onclick="showPage('view-home')">
+    <div class="nav-logo-circle">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="18" stroke="white" stroke-width="2"/>
+        <path d="M12 28 L20 10 L28 28" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M14.5 22 H25.5" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="nav-logo-text">Sead<span>Publication</span></div>
+  </a>
+
+  <div class="nav-links">
+    <!-- Overview dropdown -->
+    <div class="nav-item">
+      <span>Overview <i class="ti ti-chevron-down nav-chevron"></i></span>
+      <div class="nav-dropdown">
+        <a href="#" onclick="showAboutTab('about-us-panel')"><i class="ti ti-info-circle"></i> About Sead</a>
+        <a href="#" onclick="showAboutTab('team-panel')"><i class="ti ti-users"></i> Our Team</a>
+        <a href="#" onclick="showAboutTab('certificates-panel')"><i class="ti ti-certificate"></i> Excellence &amp; Trust</a>
+        <a href="#" onclick="showAboutTab('awards-panel')"><i class="ti ti-award"></i> Awards &amp; Laurels</a>
+      </div>
+    </div>
+
+    <!-- For Writers dropdown -->
+    <div class="nav-item">
+      <span>For Writers <i class="ti ti-chevron-down nav-chevron"></i></span>
+      <div class="nav-dropdown">
+        <a href="#" onclick="showPage('view-writers', 'publishing-process')"><i class="ti ti-pencil"></i> How to Publish</a>
+        <a href="#" onclick="showPage('view-writers', 'publishing-guide')"><i class="ti ti-notebook"></i> Publishing Guide</a>
+        <a href="#" onclick="showPage('view-writers', 'wizard-section')"><i class="ti ti-file-text"></i> Manuscript Submission</a>
+        <a href="#" onclick="showPage('view-royalty')"><i class="ti ti-chart-bar"></i> Royalty Calculator</a>
+        <a href="#" onclick="showPage('view-writers', 'support-section')"><i class="ti ti-headphones"></i> Author Support Desk</a>
+      </div>
+    </div>
+
+    <!-- Packages (no dropdown) -->
+    <div class="nav-item">
+      <a href="#" onclick="showPage('view-home', 'package-hero')">Packages</a>
+    </div>
+
+    <!-- Royalty Calculator Link -->
+    <div class="nav-item">
+      <a href="#" onclick="showPage('view-royalty')" class="royalty">Royalty Calculator</a>
+    </div>
+
+    <!-- Updates dropdown -->
+    <div class="nav-item">
+      <span>Updates <i class="ti ti-chevron-down nav-chevron"></i></span>
+      <div class="nav-dropdown">
+        <a href="#" onclick="showBlogTab('blog-articles-panel')"><i class="ti ti-news"></i> Blog &amp; Articles</a>
+        <a href="#" onclick="showBlogTab('announcements-panel')"><i class="ti ti-speakerphone"></i> Announcements</a>
+        <a href="#" onclick="showBlogTab('events-panel')"><i class="ti ti-calendar-event"></i> Upcoming Events</a>
+      </div>
+    </div>
+
+    <!-- Book Store Button -->
+    <a href="#" onclick="showPage('view-bookstore')" class="nav-bookstore">Book Store</a>
+  </div>
+
+  <div style="display:flex; align-items:center;">
+    <a href="#" onclick="showPage('view-writers', 'wizard-section')" class="nav-cta">
+      <i class="ti ti-books"></i> Start Publishing
+    </a>
+    <div class="cart-icon-btn" onclick="toggleCart()">
+      <i class="ti ti-shopping-cart" style="font-size: 20px;"></i>
+      <div class="cart-badge" id="cart-badge-count">0</div>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <!-- ── VIEW: HOME (STARTER PACKAGE) ── -->
+  <div class="page-view active" id="view-home">
+    <div class="hero" id="package-hero">
+      <div class="hero-left">
+        <div class="hero-badge">
+          <i class="ti ti-star" style="font-size:11px;color:var(--accent)"></i>
+          Perfect for debut authors
+        </div>
+        <div class="hero-title">Starter <span class="accent">Pack</span>age</div>
+        <div class="hero-sub">Your first book, crafted to elite standards.</div>
+        <div class="hero-desc">
+          An affordable all-in-one publishing package ideal for debut novelists, poets, and academic writers. Includes custom cover art, professional interior formatting, standard editing, globally-resolved ISBN registration, India-wide distribution, and continuous expert support.
+        </div>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="toggleChatBox()">
+            <i class="ti ti-brand-whatsapp"></i> Consult a Publishing Expert
+          </button>
+          <button class="btn-secondary" onclick="downloadBrochure()">
+            <i class="ti ti-download"></i> Download Catalogue
+          </button>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="book-mockup-wrapper">
+          <div class="book-mockup">
+            <div class="book-spine"></div>
+            <div class="book-content">
+              <div style="font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:12px">Elite Guide to</div>
+              <div class="book-s">S</div>
+              <div class="book-title">CREATIVE PUBLISHING</div>
+              <div class="book-subtitle">By Sead</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="features-strip">
+      <div class="feat-item">
+        <div class="feat-icon"><i class="ti ti-pencil"></i></div>
+        <div class="feat-text">
+          <strong>Elite Standard Editing</strong>
+          Meticulous proofreading & layout
+        </div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon"><i class="ti ti-speakerphone"></i></div>
+        <div class="feat-text">
+          <strong>Comprehensive PR Boost</strong>
+          Amazon setup, social kits, and indexing
+        </div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon"><i class="ti ti-coin"></i></div>
+        <div class="feat-text">
+          <strong>100% Royalty Share</strong>
+          Keep full profits paid out monthly
+        </div>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div class="main-col">
+        <div class="cards-row">
+          <div class="info-card">
+            <div class="info-card-title">Debut-Friendly Process</div>
+            <div class="info-card-body">A dedicated project manager guides you through editing, typesetting, copyright registration, and printing.</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-title">Promotional Foundations</div>
+            <div class="info-card-body">Includes social media feature banners, author spotlight interviews, Goodreads integration, and marketing plans.</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-title">Uncapped Royalties</div>
+            <div class="info-card-body">Retain absolute control over your digital and print copyright with high-rate direct-to-bank profits.</div>
+          </div>
+        </div>
+
+        <div class="overview-section">
+          <h2 class="section-title">Package Overview</h2>
+          <br><br>
+          <p>The <strong>Starter Package</strong> is meticulously tailored to support creative voices taking their first major steps into print publication. Ideal for short-fiction titles, poetry collections, philosophical essays, and motivational guides, this package includes every professional element needed to launch an exceptional product.</p>
+          <p>We provide <strong>premium customized layout design, detailed cover typesetting, and professional proofreading</strong> to ensure your manuscript meets rigorous commercial retail standards. Rather than relying on simple templates, our internal design team works with your concept to align theme with layout aesthetic.</p>
+          <p>To eliminate capital risk, we employ a sophisticated <strong>Print-on-Demand (POD) distribution network</strong>. Your book is printed directly as purchases occur, meaning zero storage inventory overhead, zero stockout risk, and seamless global fulfillment.</p>
+        </div>
+
+        <div class="faq-section">
+          <h2 class="section-title">Frequently Asked Questions</h2>
+          <br><br>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              What is included in the Sead Starter Package?
+              <span class="faq-chevron">›</span>
+            </button>
+            <div class="faq-a">
+              <p>The package covers comprehensive copyediting, custom high-resolution cover layout, interior formatting for paperback and ebook formats, custom ISBN assignment, listing on Amazon/Flipkart, and continuous royalty reports.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              How is printing and inventory managed?
+              <span class="faq-chevron">›</span>
+            </button>
+            <div class="faq-a">
+              <p>We use a state-of-the-art Print-on-Demand system. Whenever a customer buys a book, our distribution partner prints and ships it instantly. You do not have to pay for bulk printing upfront.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              How do monthly royalty payouts work?
+              <span class="faq-chevron">›</span>
+            </button>
+            <div class="faq-a">
+              <p>Authors retain 100% of the net profit (MRP minus print costs and channel fees). Royalties are tracked in our dashboard and transferred to your bank account monthly.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar">
+        <div class="sidebar-cta">
+          <div class="sidebar-pill">Free Consultation</div>
+          <h3>Plan Your Bestseller</h3>
+          <p>Let our senior publishing consultants outline a detailed formatting, pricing, and distribution roadmap tailored to your book's unique target audience.</p>
+          <button class="sidebar-btn" onclick="toggleChatBox()">
+            <i class="ti ti-send"></i> Speak with Consultant
+          </button>
+        </div>
+        <div class="sidebar-note">
+          <p><i class="ti ti-shield-check" style="color:var(--accent);margin-right:5px"></i> Response turnaround is typically under 1 hour. All manuscript submissions are secure and strictly confidential.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recently Published Books -->
+    <div class="books-section">
+      <div class="books-header">
+        <h2 class="books-title">Recently Published Masterpieces</h2>
+        <button class="btn-primary" style="font-size:12px;padding:8px 16px" onclick="showPage('view-bookstore')">
+          Browse Book Store <i class="ti ti-arrow-right"></i>
+        </button>
+      </div>
+      <div class="books-grid" id="featured-books-row">
+        <!-- Will be dynamically populated -->
+      </div>
+    </div>
+
+    <!-- Featured In -->
+    <div class="featured-bar">
+      <div class="featured-label">Recognized and Featured In</div>
+      <div class="logos-row">
+        <div class="logo-item" style="color:#0d5c5a">● DAILYHUNT</div>
+        <div class="logo-item" style="border:1.5px solid var(--border);padding:3px 10px;font-weight:800;">ASIAN NEWS AGENCY</div>
+        <div class="logo-item">the <strong>startup</strong> digest</div>
+        <div class="logo-item" style="font-family:serif">LOKMAT METRO</div>
+        <div class="logo-item">Ahmedabad Mirror</div>
+        <div class="logo-item" style="color:#c48a30">● JIO NEWSROOM</div>
+      </div>
+    </div>
+
+    <!-- Contact & Guidance -->
+    <div class="contact-section">
+      <div class="contact-grid">
+        <div class="contact-left">
+          <h2>Ready to Begin Your Story?</h2>
+          <p>Fill out the form to request a formal quote, receive a manuscript structure review, or arrange a private call with our chief content strategist.</p>
+          <div class="contact-badge-pill">International Head Office</div>
+          <div class="contact-detail">
+            <div class="contact-icon">📍</div>
+            <div>First Floor, Rajhans Arcade, Kohka Road, Bhilai, Chhattisgarh, India - 490020</div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-icon">📞</div>
+            <div style="font-weight:700;color:var(--brand)">+91 81096 45082</div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-icon">✉️</div>
+            <div style="color:var(--brand)">publishing@seadpublication.com</div>
+          </div>
+          <div class="social-icons" style="margin-top:24px; display:flex; gap:16px;">
+            <a href="#" style="font-size:20px; color:var(--brand)"><i class="ti ti-brand-linkedin"></i></a>
+            <a href="#" style="font-size:20px; color:var(--brand)"><i class="ti ti-brand-instagram"></i></a>
+            <a href="#" style="font-size:20px; color:var(--brand)"><i class="ti ti-brand-x"></i></a>
+            <a href="#" style="font-size:20px; color:var(--brand)"><i class="ti ti-brand-youtube"></i></a>
+          </div>
+          <button class="maps-btn" onclick="openMap()">
+            <i class="ti ti-map-pin"></i> Locate on Google Maps
+          </button>
+        </div>
+
+        <div>
+          <div class="contact-form">
+            <div class="role-pills">
+              <div class="role-pill selected" onclick="selectRole(this)">Author</div>
+              <div class="role-pill" onclick="selectRole(this)">Corporate Client</div>
+              <div class="role-pill" onclick="selectRole(this)">Academician</div>
+            </div>
+            <input class="form-input" id="contact-name" type="text" placeholder="Enter your full name" required>
+            <input class="form-input" id="contact-email" type="email" placeholder="Email address" required>
+            <input class="form-input" id="contact-phone" type="tel" placeholder="Mobile number with country code" required>
+            <select class="form-select" id="contact-service">
+              <option value="">Select Enquired Publishing Program</option>
+              <option value="Starter Package">Starter Publishing Package</option>
+              <option value="Standard Package">Standard Editorial Package</option>
+              <option value="Premium Package">Premium Signature Package</option>
+            </select>
+            <button class="submit-btn" onclick="submitInquiryForm()">
+              <i class="ti ti-send"></i> Submit Inquiry Request
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── VIEW: ABOUT US ── -->
+  <div class="page-view" id="view-about">
+    <div class="about-container">
+      <div class="about-header">
+        <h2>We Nurture Literary Gems</h2>
+        <p>Sead Publication is an internationally indexed house committed to bringing outstanding works of fiction, poetry, non-fiction, and research to readers globally.</p>
+      </div>
+
+      <div class="about-tabs">
+        <button class="about-tab-btn active" onclick="switchAboutTab(event, 'about-us-panel')">Our Heritage</button>
+        <button class="about-tab-btn" onclick="switchAboutTab(event, 'team-panel')">Leadership Team</button>
+        <button class="about-tab-btn" onclick="switchAboutTab(event, 'certificates-panel')">Quality Standard</button>
+        <button class="about-tab-btn" onclick="switchAboutTab(event, 'awards-panel')">Awards &amp; Laurels</button>
+      </div>
+
+      <!-- Tab: Our Heritage -->
+      <div class="about-tab-panel active" id="about-us-panel">
+        <div class="about-panel-text">
+          <h3 style="margin-bottom:16px;">Rooted in Literary Integrity</h3>
+          <p>Founded on the principles of organic author growth—symbolized by our sprout emblem—Sead Publication has evolved from a boutique editorial house into a premium national publisher.</p>
+          <p>Our operational model relies on transparency, ensuring that authors retain full creative control over their artistic output and enjoy the absolute maximum royalty returns in the modern market.</p>
+        </div>
+        <img class="about-panel-img" src="https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?auto=format&fit=crop&q=80&w=600" alt="Library Background">
+      </div>
+
+      <!-- Tab: Leadership -->
+      <div class="about-tab-panel" id="team-panel">
+        <div class="team-grid" style="grid-column: span 2;">
+          <div class="team-card">
+            <div class="team-avatar"><i class="ti ti-user-star"></i></div>
+            <div class="team-name">Dr. Vikramaditya Sen</div>
+            <div class="team-role">Chief Consulting Editor</div>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar"><i class="ti ti-brush"></i></div>
+            <div class="team-name">Meera Malhotra</div>
+            <div class="team-role">Head of Cover Art &amp; Design</div>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar"><i class="ti ti-presentation"></i></div>
+            <div class="team-name">Arjun Kapoor</div>
+            <div class="team-role">Global PR &amp; Distribution Lead</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Certificates -->
+      <div class="about-tab-panel" id="certificates-panel">
+        <div class="about-panel-text">
+          <h3 style="margin-bottom:16px;">Assurance of International Standards</h3>
+          <p>Every book published under the Sead imprint goes through a rigorous quality assurance cycle. Our layout masters ensure that font tracking, margin gutters, and crop coordinates conform strictly to global distribution formats.</p>
+          <p>We are a member of major national publishing alliances, and all assigned ISBN numbers are authenticated by Raja Rammohun Roy National Agency, Ministry of Education, Govt. of India.</p>
+        </div>
+        <img class="about-panel-img" src="https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&q=80&w=600" alt="Excellence Certificate Background">
+      </div>
+
+      <!-- Tab: Awards & Laurels -->
+      <div class="about-tab-panel" id="awards-panel">
+        <div class="about-panel-text">
+          <h3 style="margin-bottom:16px;">Excellence Recognized Globally</h3>
+          <p>Sead Publication has been honored with the <strong>Federation of Indian Publishers Award</strong> for excellence in cover design and overall production standard.</p>
+          <p>Our authors have repeatedly been shortlisted for the <em>Sahitya Akademi Golden Jubilee Award</em>, the <em>Crossword Book Award</em>, and international debut fiction grants.</p>
+        </div>
+        <img class="about-panel-img" src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=600" alt="Trophy Awards">
+      </div>
+    </div>
+  </div>
+
+  <!-- ── VIEW: FOR WRITERS (SUBMISSION WIZARD) ── -->
+  <div class="page-view" id="view-writers">
+    <div class="writers-container">
+      <div class="about-header" id="publishing-process">
+        <h2>Your Journey from Sprout to Sequoia</h2>
+        <p>Our four-step collaborative publishing process ensures your story is refined, beautifully dressed, and properly launched globally.</p>
+      </div>
+
+      <div class="roadmap-grid">
+        <div class="roadmap-card">
+          <div class="roadmap-num">01</div>
+          <div class="roadmap-title">Submit &amp; Review</div>
+          <div class="roadmap-desc">Provide your manuscript and synopsis. Our review board completes a theme and format compatibility check.</div>
+        </div>
+        <div class="roadmap-card">
+          <div class="roadmap-num">02</div>
+          <div class="roadmap-title">Refining &amp; Styling</div>
+          <div class="roadmap-desc">Our editors correct structure and layout, while graphic designers develop a stunning custom cover style.</div>
+        </div>
+        <div class="roadmap-card">
+          <div class="roadmap-num">03</div>
+          <div class="roadmap-title">ISBN &amp; Cataloging</div>
+          <div class="roadmap-desc">We assign a high-fidelity unique ISBN and index your book in all central cataloging databases.</div>
+        </div>
+        <div class="roadmap-card">
+          <div class="roadmap-num">04</div>
+          <div class="roadmap-title">Launch &amp; Distribute</div>
+          <div class="roadmap-desc">Your title goes live across national stores on paperback and digital ebook shelves, backed by a solid PR package.</div>
+        </div>
+      </div>
+
+      <!-- Submission Wizard -->
+      <div class="submission-wizard" id="wizard-section">
+        <div class="wizard-header">
+          <h3 style="font-size:24px; margin-bottom:8px;">Manuscript Submission Portal</h3>
+          <p style="color:var(--muted); font-size:13.5px;">Register your book details to receive formal editorial review feedback.</p>
+        </div>
+
+        <div class="wizard-progress">
+          <div class="wizard-progress-bar" id="wizard-progress-bar"></div>
+          <div class="wizard-step-dot active" id="dot-1">1</div>
+          <div class="wizard-step-dot" id="dot-2">2</div>
+          <div class="wizard-step-dot" id="dot-3">3</div>
+        </div>
+
+        <!-- Step 1: Book Info -->
+        <div class="wizard-step active" id="step-1">
+          <h4 style="margin-bottom:20px; font-size:18px;">Step 1: Book Fundamentals</h4>
+          <input class="form-input" id="wiz-title" type="text" placeholder="Working Book Title" required>
+          <select class="form-select" id="wiz-genre" required>
+            <option value="">Select Primary Literary Genre</option>
+            <option>Fiction / Novel</option>
+            <option>Poetry Anthology</option>
+            <option>Biography / Memoir</option>
+            <option>Academic / Technical</option>
+            <option>Self-Help / Non-Fiction</option>
+          </select>
+          <input class="form-input" id="wiz-words" type="number" placeholder="Estimated Word Count" required>
+        </div>
+
+        <!-- Step 2: Author Info -->
+        <div class="wizard-step" id="step-2">
+          <h4 style="margin-bottom:20px; font-size:18px;">Step 2: Creator Credentials</h4>
+          <input class="form-input" id="wiz-author" type="text" placeholder="Author Pen Name" required>
+          <input class="form-input" id="wiz-email" type="email" placeholder="Contact Email Address" required>
+          <input class="form-input" id="wiz-phone" type="tel" placeholder="Mobile / WhatsApp Number" required>
+          <textarea class="form-textarea" id="wiz-bio" placeholder="Brief Author Biography (50-100 words)" rows="3"></textarea>
+        </div>
+
+        <!-- Step 3: Manuscript Upload -->
+        <div class="wizard-step" id="step-3">
+          <h4 style="margin-bottom:20px; font-size:18px;">Step 3: Document Upload</h4>
+          <div class="upload-box" onclick="triggerFileSelect()">
+            <div class="upload-icon"><i class="ti ti-cloud-upload"></i></div>
+            <p style="font-weight:600; color:var(--brand);">Click to browse manuscript document</p>
+            <p style="font-size:11px; color:var(--muted); margin-top:4px;">Supports .docx, .doc, or .pdf (Max size 35MB)</p>
+            <input type="file" id="manuscript-file-input" style="display:none;" onchange="handleFileSelected(event)">
+            <p id="file-name-display" style="margin-top:12px; font-weight:700; color:var(--accent); font-size:13px;"></p>
+          </div>
+          <div id="upload-progress-container" style="display:none; margin-top:20px;">
+            <p style="font-size:12px; margin-bottom:6px; color:var(--muted);">Simulating secure upload...</p>
+            <div style="height:4px; background:var(--border); border-radius:2px; overflow:hidden;">
+              <div id="upload-progress-bar" style="width:0%; height:100%; background:var(--brand); transition: width 0.1s;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wizard-btns">
+          <button class="btn-prev" id="wiz-btn-prev" onclick="moveWizard(-1)" style="display:none;">Back</button>
+          <button class="btn-primary" id="wiz-btn-next" onclick="moveWizard(1)" style="margin-left:auto;">Next Step</button>
+        </div>
+      </div>
+
+      <!-- Publishing Guide -->
+      <div id="publishing-guide" style="margin-top: 56px; border-top: 1px solid var(--border); padding-top: 56px;">
+        <h3 style="font-size:26px; margin-bottom:12px; font-family:'Playfair Display',serif; text-align:center;">Interactive Manuscript Formatting Guide</h3>
+        <p style="color:var(--muted); text-align:center; font-size:14px; margin-bottom:32px;">Ensure your document matches retail printing metrics. Select parameters below to view standard specifications.</p>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:32px; background:var(--white); padding:32px; border-radius:16px; border:1px solid var(--border); box-shadow:var(--shadow-md);">
+          <div>
+            <h4 style="margin-bottom:16px; font-size:16px;">Formatting Specifications</h4>
+            <ul style="list-style:none; line-height:2.0; font-size:13.5px; color:var(--text);">
+              <li><i class="ti ti-check" style="color:var(--brand); margin-right:8px;"></i> <strong>Standard Margins:</strong> 0.5 inches (Gutter 0.13 inches)</li>
+              <li><i class="ti ti-check" style="color:var(--brand); margin-right:8px;"></i> <strong>Line Spacing:</strong> 1.15x to 1.25x</li>
+              <li><i class="ti ti-check" style="color:var(--brand); margin-right:8px;"></i> <strong>Recommended Fonts:</strong> Garamond, Georgia, or Palatino (11pt / 12pt)</li>
+              <li><i class="ti ti-check" style="color:var(--brand); margin-right:8px;"></i> <strong>First Line Indents:</strong> 0.2 inches (No tab spacing)</li>
+              <li><i class="ti ti-check" style="color:var(--brand); margin-right:8px;"></i> <strong>Chapter Headings:</strong> H1, centered, starts 1/3 down the page</li>
+            </ul>
+          </div>
+          <div style="background:var(--bg-warm); padding:24px; border-radius:12px; border:1px solid var(--border);">
+            <h4 style="margin-bottom:12px; font-size:16px;">Submission Readiness Checklist</h4>
+            <div style="display:flex; flex-direction:column; gap:10px; font-size:13px;">
+              <label style="display:flex; align-items:center; gap:10px; cursor:pointer;"><input type="checkbox" style="accent-color:var(--brand);"> Completed proofreading cycle</label>
+              <label style="display:flex; align-items:center; gap:10px; cursor:pointer;"><input type="checkbox" style="accent-color:var(--brand);"> Standard Front Matter (Title Page, Copyright, Preface)</label>
+              <label style="display:flex; align-items:center; gap:10px; cursor:pointer;"><input type="checkbox" style="accent-color:var(--brand);"> Clear Chapter and Page breaks inserted</label>
+              <label style="display:flex; align-items:center; gap:10px; cursor:pointer;"><input type="checkbox" style="accent-color:var(--brand);"> High-resolution graphics embedded (if any)</label>
+              <label style="display:flex; align-items:center; gap:10px; cursor:pointer;"><input type="checkbox" style="accent-color:var(--brand);"> Synopsis (300-500 words) finalized</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Support Desk -->
+      <div id="support-section" style="margin-top: 56px; border-top: 1px solid var(--border); padding-top: 56px;">
+        <div style="max-width: 800px; margin: 0 auto;">
+          <h3 style="font-size:26px; margin-bottom:12px; font-family:'Playfair Display',serif; text-align:center;">Author Support Desk</h3>
+          <p style="color:var(--muted); text-align:center; font-size:14px; margin-bottom:32px;">Do you have a question regarding formatting, royalties, or cover design? Submit a ticket directly to our support engineers.</p>
+          <div class="contact-form" style="background:var(--white);">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:16px;">
+              <input class="form-input" id="support-name" type="text" placeholder="Your Name" style="margin-bottom:0;" required>
+              <input class="form-input" id="support-email" type="email" placeholder="Your Email Address" style="margin-bottom:0;" required>
+            </div>
+            <select class="form-select" id="support-category" required>
+              <option value="">Select Support Category</option>
+              <option value="Royalty & Payments">Royalty &amp; Payments</option>
+              <option value="Cover Design Queries">Cover Design &amp; Layout</option>
+              <option value="Distribution & Listing">Distribution &amp; Listing</option>
+              <option value="Formatting Assistance">Manuscript Formatting Help</option>
+            </select>
+            <textarea class="form-textarea" id="support-message" placeholder="Describe your query in detail..." rows="4" required></textarea>
+            <button class="submit-btn" onclick="submitSupportTicket()">
+              <i class="ti ti-headphones"></i> Submit Support Ticket
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── VIEW: ROYALTY CALCULATOR ── -->
+  <div class="page-view" id="view-royalty">
+    <div class="calc-container">
+      <div class="about-header">
+        <h2>Transparent Royalty Modeler</h2>
+        <p>Use our real-time interactive calculator to model your retail price structures, printing overheads, and total profit shares.</p>
+      </div>
+
+      <div class="calc-grid">
+        <div class="calc-left">
+          <h3 style="margin-bottom:24px; font-size:22px;">Modelling Coordinates</h3>
+
+          <div class="slider-group">
+            <div class="slider-label-row">
+              <span>Book Page Count</span>
+              <span class="val" id="calc-lbl-pages">150 pages</span>
+            </div>
+            <input type="range" class="calc-slider" id="calc-val-pages" min="50" max="500" value="150" oninput="runRoyaltyMath()">
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-label-row">
+              <span>Binding Format</span>
+            </div>
+            <div class="binding-selects">
+              <div class="binding-card selected" id="binding-paper" onclick="setBinding('paperback')">Paperback Layout</div>
+              <div class="binding-card" id="binding-hard" onclick="setBinding('hardcover')">Classic Hardbound</div>
+            </div>
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-label-row">
+              <span>Maximum Retail Price (MRP)</span>
+              <span class="val" id="calc-lbl-mrp">₹299</span>
+            </div>
+            <input type="range" class="calc-slider" id="calc-val-mrp" min="150" max="999" value="299" oninput="runRoyaltyMath()">
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-label-row">
+              <span>Projected Monthly Copies Sold</span>
+              <span class="val" id="calc-lbl-sales">250 units</span>
+            </div>
+            <input type="range" class="calc-slider" id="calc-val-sales" min="10" max="2000" value="250" oninput="runRoyaltyMath()">
+          </div>
+        </div>
+
+        <div class="calc-right">
+          <div>
+            <h3 style="margin-bottom:20px; font-size:20px; color:var(--brand-dark);">Financial Analysis Breakdown</h3>
+            <div class="calc-metrics-card">
+              <div class="metric-row">
+                <span style="color:var(--muted)">Base Print Production Cost</span>
+                <strong id="calc-val-print">₹95.00</strong>
+              </div>
+              <div class="metric-row">
+                <span style="color:var(--muted)">Sead Distribution Fee (15% MRP)</span>
+                <strong id="calc-val-dist">₹44.85</strong>
+              </div>
+              <div class="metric-row">
+                <span style="color:var(--muted)">Net Sales Channel Margin</span>
+                <strong id="calc-val-margin">₹159.15</strong>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="metric-row total">
+              <span>Your Estimated Monthly Royalty</span>
+              <span id="calc-val-net-royalty" style="color:var(--brand); font-size:24px;">₹39,787.50</span>
+            </div>
+            <div class="metric-row" style="margin-top: 10px; font-size:12px; color:var(--muted);">
+              <span>Projected Annual Profit Pool</span>
+              <strong id="calc-val-annual-royalty" style="color:var(--accent)">₹4,77,450.00</strong>
+            </div>
+            <button class="btn-primary" onclick="showPage('view-writers', 'wizard-section')" style="width:100%; margin-top:24px; justify-content:center;">
+              Start Publication Program
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── VIEW: BOOKSTORE ── -->
+  <div class="page-view" id="view-bookstore">
+    <div class="store-container">
+      <div class="about-header">
+        <h2>Sead Literary Gallery</h2>
+        <p>Explore recently curated releases, premium cover formats, and order directly from the source.</p>
+      </div>
+
+      <div class="store-controls">
+        <div class="filter-pills">
+          <div class="filter-pill active" onclick="filterCatalog(event, 'all')">All Formats</div>
+          <div class="filter-pill" onclick="filterCatalog(event, 'Fiction')">Fiction</div>
+          <div class="filter-pill" onclick="filterCatalog(event, 'Poetry')">Poetry</div>
+          <div class="filter-pill" onclick="filterCatalog(event, 'Non-Fiction')">Non-Fiction</div>
+          <div class="filter-pill" onclick="filterCatalog(event, 'Thriller')">Thriller</div>
+        </div>
+        <div class="store-search">
+          <i class="ti ti-search"></i>
+          <input type="text" id="store-search-input" placeholder="Search by title, genre, author..." oninput="searchCatalog()">
+        </div>
+      </div>
+
+      <div class="books-grid" id="catalog-books-grid">
+        <!-- Will be dynamically populated via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ── VIEW: BLOG ── -->
+  <div class="page-view" id="view-blog">
+    <div class="blog-container">
+      <div class="about-header">
+        <h2>Intellectual Sprout Articles</h2>
+        <p>Expert guides, trends, and tutorials from senior literary consultants to shape your publishing career.</p>
+      </div>
+
+      <div class="about-tabs" style="margin-bottom: 36px;">
+        <button class="about-tab-btn active" id="blog-tab-btn" onclick="switchBlogTab(event, 'blog-articles-panel')">Publishing Tutorials</button>
+        <button class="about-tab-btn" id="announce-tab-btn" onclick="switchBlogTab(event, 'announcements-panel')">Official Announcements</button>
+        <button class="about-tab-btn" id="events-tab-btn" onclick="switchBlogTab(event, 'events-panel')">Upcoming Events</button>
+      </div>
+
+      <!-- Blog Articles Panel -->
+      <div class="blog-grid active" id="blog-articles-panel">
+        <div class="blog-card">
+          <img class="blog-card-img" src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&q=80&w=400" alt="Writing desk">
+          <div class="blog-card-content">
+            <div class="blog-date">May 12, 2026</div>
+            <h3>Formatting Your Book Manuscript</h3>
+            <p class="blog-excerpt">A comprehensive tutorial outlining the precise margin sizing, paragraph indent settings, and document structures for standard retail printing.</p>
+            <a href="#" class="blog-link" onclick="readArticle('Formatting')">Read Tutorial <i class="ti ti-chevron-right"></i></a>
+          </div>
+        </div>
+
+        <div class="blog-card">
+          <img class="blog-card-img" src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=400" alt="Book cover collection">
+          <div class="blog-card-content">
+            <div class="blog-date">April 28, 2026</div>
+            <h3>Visual Psychology in Book Covers</h3>
+            <p class="blog-excerpt">Uncover why specific background colors, modern typography pairings, and layout structures immediately engage a book buyer's split-second attention.</p>
+            <a href="#" class="blog-link" onclick="readArticle('Cover Psychology')">Read Tutorial <i class="ti ti-chevron-right"></i></a>
+          </div>
+        </div>
+
+        <div class="blog-card">
+          <img class="blog-card-img" src="https://images.unsplash.com/photo-1473186578172-c141e6798cf4?auto=format&fit=crop&q=80&w=400" alt="Market research charts">
+          <div class="blog-card-content">
+            <div class="blog-date">March 15, 2026</div>
+            <h3>How to Build an Author Audience</h3>
+            <p class="blog-excerpt">Learn powerful techniques for social media presence, setting up an Amazon Author profile, and gathering initial feedback reviews prior to launch.</p>
+            <a href="#" class="blog-link" onclick="readArticle('Audience Building')">Read Tutorial <i class="ti ti-chevron-right"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Announcements Panel -->
+      <div class="about-tab-panel" id="announcements-panel" style="display:none; grid-column: span 3; width:100%;">
+        <div style="display:flex; flex-direction:column; gap:24px; width:100%;">
+          <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; padding:24px; box-shadow:var(--shadow-sm);">
+            <div style="font-size:11px; color:var(--accent); font-weight:600; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">May 15, 2026</div>
+            <h3 style="font-size:18px; margin-bottom:10px; font-family:'Playfair Display',serif;">Sead Publication Partners with Ingram Content Group</h3>
+            <p style="font-size:13.5px; color:var(--muted); line-height:1.6;">We are thrilled to announce a strategic distribution partnership with Ingram Content Group. This expands Sead Publication's distribution channels to over 39,000 retailers, libraries, and universities worldwide, making our paperback titles accessible globally.</p>
+          </div>
+          <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; padding:24px; box-shadow:var(--shadow-sm);">
+            <div style="font-size:11px; color:var(--accent); font-weight:600; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">March 22, 2026</div>
+            <h3 style="font-size:18px; margin-bottom:10px; font-family:'Playfair Display',serif;">Winners of the Sead Debut Poetry Grant 2026 Announced</h3>
+            <p style="font-size:13.5px; color:var(--muted); line-height:1.6;">Following reviews of over 1,200 submissions, our literary review board has chosen three standout debut collections for full-funding publication grants. Congratulations to our winners!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Events Panel -->
+      <div class="about-tab-panel" id="events-panel" style="display:none; grid-column: span 3; width:100%;">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px; width:100%;">
+          <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; padding:24px; box-shadow:var(--shadow-sm); display:flex; gap:16px;">
+            <div style="background:var(--brand-light); color:var(--brand); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:12px 18px; border-radius:8px; height:fit-content; font-family:'Playfair Display',serif;">
+              <span style="font-size:24px; font-weight:700;">10</span>
+              <span style="font-size:12px; text-transform:uppercase; font-weight:600;">June</span>
+            </div>
+            <div>
+              <h3 style="font-size:16px; margin-bottom:6px; font-family:'Playfair Display',serif;">Seminar: Navigating Self-Publishing</h3>
+              <p style="font-size:12.5px; color:var(--muted); line-height:1.5; margin-bottom:10px;">A virtual masterclass led by Vikramaditya Sen, teaching metadata optimization, formatting, and ISBN allocation rules.</p>
+              <span style="font-size:11px; background:var(--brand); color:var(--white); padding:5px 12px; border-radius:6px; font-weight:600; cursor:pointer;" onclick="alert('Registered for virtual seminar! Details sent via email.')">Register Free</span>
+            </div>
+          </div>
+          <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; padding:24px; box-shadow:var(--shadow-sm); display:flex; gap:16px;">
+            <div style="background:var(--brand-light); color:var(--brand); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:12px 18px; border-radius:8px; height:fit-content; font-family:'Playfair Display',serif;">
+              <span style="font-size:24px; font-weight:700;">24</span>
+              <span style="font-size:12px; text-transform:uppercase; font-weight:600;">June</span>
+            </div>
+            <div>
+              <h3 style="font-size:16px; margin-bottom:6px; font-family:'Playfair Display',serif;">Delhi Launch of "Midnight Muse"</h3>
+              <p style="font-size:12.5px; color:var(--muted); line-height:1.5; margin-bottom:10px;">Celebrate the launch of Daniya Danish's new poetry anthology at Oxford Bookstore, Connaught Place. Free poetry readings and signings.</p>
+              <span style="font-size:11px; background:var(--brand); color:var(--white); padding:5px 12px; border-radius:6px; font-weight:600; cursor:pointer;" onclick="alert('Registered for launch event seat! Invitation pass sent.')">Get Invitation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- SHOPPING CART SLIDE-OUT PANEL -->
+<div class="drawer-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+<div class="cart-drawer" id="cart-drawer">
+  <div class="cart-header">
+    <h3 style="font-size:18px;"><i class="ti ti-shopping-cart" style="color:var(--brand)"></i> Shopping Cart</h3>
+    <div class="cart-close-btn" onclick="toggleCart()">&times;</div>
+  </div>
+  <div class="cart-items-container" id="cart-items-list">
+    <!-- Will be dynamic -->
+  </div>
+  <div class="cart-footer">
+    <div class="cart-subtotal-row">
+      <span>Subtotal</span>
+      <span id="cart-subtotal-val">₹0.00</span>
+    </div>
+    <button class="btn-primary" onclick="proceedToCheckout()" style="width:100%; justify-content:center;">
+      Proceed to Checkout
+    </button>
+  </div>
+</div>
+
+<!-- BOOK QUICK-VIEW MODAL -->
+<div class="modal" id="book-quickview-modal" onclick="closeModalOnOverlay(event)">
+  <div class="modal-content">
+    <div class="modal-close" onclick="closeBookModal()">&times;</div>
+    <div style="display:flex; gap:24px;" id="book-modal-body">
+      <!-- Dynamic -->
+    </div>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal" id="checkout-modal" onclick="closeModalOnOverlay(event)">
+  <div class="modal-content" style="max-width: 480px;">
+    <div class="modal-close" onclick="toggleModal('checkout-modal', false)">&times;</div>
+    <h3 style="margin-bottom:20px; font-size:22px; text-align:center;">Secure Checkout</h3>
+    <div id="checkout-form">
+      <input class="form-input" id="check-name" type="text" placeholder="Full Delivery Name" required>
+      <input class="form-input" id="check-address" type="text" placeholder="Complete Shipping Address" required>
+      <input class="form-input" id="check-card" type="text" placeholder="Credit / Debit Card Number" required>
+      <div style="display:flex; gap:12px;">
+        <input class="form-input" id="check-expiry" type="text" placeholder="MM/YY" style="width:100%;" required>
+        <input class="form-input" id="check-cvv" type="password" placeholder="CVV" style="width:100%;" required>
+      </div>
+      <button class="submit-btn" style="margin-top:12px;" onclick="simulatePayment()">
+        Pay <span id="checkout-pay-total">₹0.00</span> Secures Order
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS CONFIRMATION MODAL -->
+<div class="modal" id="success-modal">
+  <div class="modal-content" style="max-width: 400px; text-align: center;">
+    <div class="modal-close" onclick="toggleModal('success-modal', false)">&times;</div>
+    <div style="width:64px; height:64px; border-radius:50%; background:var(--brand-light); color:var(--brand); display:flex; align-items:center; justify-content:center; font-size:32px; margin: 0 auto 20px;">
+      <i class="ti ti-check"></i>
+    </div>
+    <h3 style="margin-bottom:12px; font-size:24px;">Order Placed Successfully!</h3>
+    <p style="color:var(--muted); font-size:13.5px; line-height:1.6; margin-bottom:24px;" id="success-msg">Your transaction was processed safely. A confirmation dispatch note will be sent shortly.</p>
+    <button class="btn-primary" onclick="toggleModal('success-modal', false)">Continue Browsing</button>
+  </div>
+</div>
+
+<!-- BLOG READER MODAL -->
+<div class="modal" id="blog-reader-modal" onclick="closeModalOnOverlay(event)">
+  <div class="modal-content" style="max-width: 700px; width: 90%;">
+    <div class="modal-close" onclick="toggleModal('blog-reader-modal', false)">&times;</div>
+    <div id="blog-reader-body" style="max-height: 500px; overflow-y: auto; padding-right: 10px; margin-top: 10px;">
+      <!-- Dynamic -->
+    </div>
+  </div>
+</div>
+
+<!-- CHAT WIDGET -->
+<div class="chat-btn" onclick="toggleChatBox()"><i class="ti ti-message-chatbot"></i></div>
+<div class="chat-box" id="chat-box">
+  <div class="chat-box-header">
+    <div style="display:flex; align-items:center; gap:8px;">
+      <div style="width:10px; height:10px; border-radius:50%; background:#27c442;"></div>
+      <span style="font-weight:600; font-size:14px;">Senior Publishing Bot</span>
+    </div>
+    <div style="cursor:pointer;" onclick="toggleChatBox()">&times;</div>
+  </div>
+  <div class="chat-box-body" id="chat-box-messages">
+    <div class="chat-msg bot">
+      Welcome to Sead Publication! I'm here to support your publishing plans. What category describes your current book?
+      <div class="chat-options">
+        <button class="chat-opt-btn" onclick="sendChatOption('Poetry Anthology')">Poetry Collection</button>
+        <button class="chat-opt-btn" onclick="sendChatOption('Fiction Novel')">Fiction / Novel</button>
+        <button class="chat-opt-btn" onclick="sendChatOption('Academic Thesis')">Thesis / Academic</button>
+      </div>
+    </div>
+  </div>
+  <div class="chat-box-footer">
+    <input class="chat-input" id="chat-user-input" type="text" placeholder="Type a message..." onkeypress="handleChatEnter(event)">
+    <button class="chat-send-btn" onclick="sendChatMessage()"><i class="ti ti-send" style="font-size:14px;"></i></button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div class="nav-logo" style="margin-bottom:16px;">
+        <div class="nav-logo-circle" style="background:var(--accent);">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="18" stroke="white" stroke-width="2"/>
+            <path d="M12 28 L20 10 L28 28" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="M14.5 22 H25.5" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="nav-logo-text" style="color:var(--white)">Sead<span style="color:var(--accent)">Publication</span></div>
+      </div>
+      <p style="font-size:12.5px; line-height:1.7;">Sead Publication is an elite, transparent publishing network that nurtures promising literary sprout manuscripts into commercially viable market standards.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Publishing Resources</h4>
+      <ul class="footer-links">
+        <li><a href="#" onclick="showPage('view-writers', 'wizard-section')">Manuscript Upload</a></li>
+        <li><a href="#" onclick="showPage('view-royalty')">Royalty Calculator</a></li>
+        <li><a href="#" onclick="showPage('view-home', 'package-hero')">Starter Publishing Package</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Our Gallery</h4>
+      <ul class="footer-links">
+        <li><a href="#" onclick="showPage('view-bookstore')">Recent Releases</a></li>
+        <li><a href="#" onclick="showPage('view-blog')">Publishing Tutorials</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal &amp; Support</h4>
+      <ul class="footer-links">
+        <li><a href="#" onclick="showPage('view-about')">About the House</a></li>
+        <li><a href="#" onclick="showPage('view-home', 'contact-name')">Arrange Consultation</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Sead Publication House. All assigned book copyrights are held securely by their respective registered authors.</p>
+  </div>
+</footer>
+
+<script>
+  /* ── BOOKS DATA ENGINE ── */
+  const BOOKS_DATABASE = [
+    {
+      id: "book-1",
+      title: "The Mist Between The Hearts",
+      author: "Mohammad Aga Hussain",
+      genre: "Fiction",
+      price: 299,
+      cover: "assets/cover_mist_hearts.png",
+      description: "An evocative romance charting the intersections of raw emotions and duty in a picturesque misty mountain village. Mohammad Aga Hussain crafts an immersive narrative of hope, devotion, and structural sacrifice.",
+      pages: 280,
+      format: "Paperback"
+    },
+    {
+      id: "book-2",
+      title: "Whispers of Ethos and Echoes of Love",
+      author: "Sagar Singh Rajawat",
+      genre: "Poetry",
+      price: 199,
+      cover: "assets/cover_whispers_ethos.png",
+      description: "A gorgeous collection of modern abstract poetry exploring the quiet landscapes of moral integrity and deep relational intimacy. Richly packaged with minimalist design.",
+      pages: 120,
+      format: "Paperback"
+    },
+    {
+      id: "book-3",
+      title: "Believe it or not, but it Happens",
+      author: "Dr. Subodh Kumar",
+      genre: "Non-Fiction",
+      price: 249,
+      cover: "assets/cover_believe_happens.png",
+      description: "An inspiring motivational compilation of real-world anomalies, human perseverance breakthroughs, and cosmic coincidences that prove magic is simply science we haven't structured yet.",
+      pages: 210,
+      format: "Paperback"
+    },
+    {
+      id: "book-4",
+      title: "Lean Construction For Superior Project",
+      author: "Dr. Subhash Rastogi",
+      genre: "Non-Fiction",
+      price: 499,
+      cover: "assets/cover_lean_construction.png",
+      description: "A highly analytical corporate manual mapping modern waste minimization, agile supply scheduling, and superior workflow principles for complex civil engineering architectures.",
+      pages: 350,
+      format: "Hardcover"
+    },
+    {
+      id: "book-5",
+      title: "The Deception",
+      author: "Gulnaz Kaur Bal",
+      genre: "Thriller",
+      price: 349,
+      cover: "assets/cover_deception.png",
+      description: "A dark mystery crime thriller set in cold foggy industrial alleys, following a brilliant detective unraveling a multi-layered financial syndicate conspiracy where trust is the ultimate error.",
+      pages: 310,
+      format: "Paperback"
+    },
+    {
+      id: "book-6",
+      title: "Midnight Muse",
+      author: "Daniya Danish",
+      genre: "Poetry",
+      price: 189,
+      cover: "assets/cover_midnight_muse.png",
+      description: "A dreamlike creative poetry anthology celebrating the quiet starlit hours of midnight when the ego sleeps and the muse speaks in flowing raw rhythms.",
+      pages: 96,
+      format: "Paperback"
+    }
+  ];
+
+  /* ── SHOPPING CART ENGINE ── */
+  let shoppingCart = [];
+
+  function loadFeaturedBooks() {
+    const container = document.getElementById('featured-books-row');
+    if (!container) return;
+    container.innerHTML = "";
+    BOOKS_DATABASE.slice(0, 6).forEach(book => {
+      container.appendChild(createBookCard(book));
+    });
+  }
+
+  function loadStoreCatalog(booksList = BOOKS_DATABASE) {
+    const container = document.getElementById('catalog-books-grid');
+    if (!container) return;
+    container.innerHTML = "";
+    if (booksList.length === 0) {
+      container.innerHTML = `<div style="grid-column: span 6; text-align:center; padding: 48px; color: var(--muted);">No books match your current catalog coordinates.</div>`;
+      return;
+    }
+    booksList.forEach(book => {
+      container.appendChild(createBookCard(book));
+    });
+  }
+
+  function createBookCard(book) {
+    const card = document.createElement('div');
+    card.className = "book-card";
+    card.innerHTML = `
+      <div>
+        <img class="book-cover-img" src="${book.cover}" alt="${book.title}" onclick="openBookModal('${book.id}')">
+        <div class="book-card-title">${book.title}</div>
+        <div class="book-card-author">By ${book.author}</div>
+      </div>
+      <div>
+        <div class="book-card-price">₹${book.price}.00</div>
+        <button class="order-btn" onclick="addToCart('${book.id}')">
+          <i class="ti ti-shopping-cart-plus"></i> Order Now
+        </button>
+      </div>
+    `;
+    return card;
+  }
+
+  function addToCart(bookId) {
+    const book = BOOKS_DATABASE.find(b => b.id === bookId);
+    if (!book) return;
+    const existing = shoppingCart.find(item => item.bookId === bookId);
+    if (existing) {
+      existing.qty++;
+    } else {
+      shoppingCart.push({ bookId, qty: 1 });
+    }
+    updateCartUI();
+    toggleCart(true);
+  }
+
+  function updateCartUI() {
+    const countBadge = document.getElementById('cart-badge-count');
+    const listContainer = document.getElementById('cart-items-list');
+    const totalLabel = document.getElementById('cart-subtotal-val');
+    
+    let totalCount = 0;
+    let totalPrice = 0;
+    listContainer.innerHTML = "";
+
+    shoppingCart.forEach(item => {
+      const book = BOOKS_DATABASE.find(b => b.id === item.bookId);
+      if (!book) return;
+      totalCount += item.qty;
+      totalPrice += book.price * item.qty;
+
+      const itemDiv = document.createElement('div');
+      itemDiv.className = "cart-item";
+      itemDiv.innerHTML = `
+        <img class="cart-item-img" src="${book.cover}" alt="${book.title}">
+        <div class="cart-item-details">
+          <div class="cart-item-title">${book.title}</div>
+          <div class="cart-item-author">By ${book.author}</div>
+          <div class="cart-item-row">
+            <div style="font-weight:700; color:var(--brand); font-size:13px;">₹${book.price * item.qty}.00</div>
+            <div class="cart-qty-select">
+              <button class="cart-qty-btn" onclick="modifyQty('${book.id}', -1)">-</button>
+              <div class="cart-qty-val">${item.qty}</div>
+              <button class="cart-qty-btn" onclick="modifyQty('${book.id}', 1)">+</button>
+            </div>
+          </div>
+        </div>
+      `;
+      listContainer.appendChild(itemDiv);
+    });
+
+    countBadge.textContent = totalCount;
+    totalLabel.textContent = `₹${totalPrice.toFixed(2)}`;
+
+    if (shoppingCart.length === 0) {
+      listContainer.innerHTML = `<div style="text-align:center; padding: 48px 0; color: var(--muted); font-size: 13px;">Your literary cart is currently empty.</div>`;
+    }
+  }
+
+  function modifyQty(bookId, delta) {
+    const existing = shoppingCart.find(item => item.bookId === bookId);
+    if (!existing) return;
+    existing.qty += delta;
+    if (existing.qty <= 0) {
+      shoppingCart = shoppingCart.filter(item => item.bookId !== bookId);
+    }
+    updateCartUI();
+  }
+
+  function toggleCart(forceOpen = null) {
+    const drawer = document.getElementById('cart-drawer');
+    const overlay = document.getElementById('cart-overlay');
+    const isOpen = drawer.classList.contains('open');
+
+    if (forceOpen === true || (!isOpen && forceOpen !== false)) {
+      drawer.classList.add('open');
+      overlay.classList.add('open');
+    } else {
+      drawer.classList.remove('open');
+      overlay.classList.remove('open');
+    }
+  }
+
+  /* ── CORE VIEW SPA ROUTER ── */
+  function showPage(pageId, sectionId = null) {
+    document.querySelectorAll('.page-view').forEach(view => {
+      view.classList.remove('active');
+    });
+    const targetPage = document.getElementById(pageId);
+    if (targetPage) {
+      targetPage.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    if (sectionId) {
+      setTimeout(() => {
+        const section = document.getElementById(sectionId);
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 200);
+    }
+
+    // Dynamic style update for active route
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.classList.remove('active-nav');
+    });
+    // Add class if matched
+    if (pageId === 'view-bookstore') {
+      document.querySelector('.nav-bookstore').classList.add('active-nav');
+    }
+  }
+
+  /* ── BOOK CATALOG FILTERS ── */
+  let currentGenreFilter = "all";
+
+  function filterCatalog(e, genre) {
+    document.querySelectorAll('.filter-pill').forEach(pill => pill.classList.remove('active'));
+    e.target.classList.add('active');
+    currentGenreFilter = genre;
+    applyCatalogFilters();
+  }
+
+  function searchCatalog() {
+    applyCatalogFilters();
+  }
+
+  function applyCatalogFilters() {
+    const query = document.getElementById('store-search-input').value.toLowerCase().trim();
+    let results = BOOKS_DATABASE;
+
+    if (currentGenreFilter !== "all") {
+      results = results.filter(b => b.genre.toLowerCase() === currentGenreFilter.toLowerCase());
+    }
+
+    if (query) {
+      results = results.filter(b => {
+        return b.title.toLowerCase().includes(query) || 
+               b.author.toLowerCase().includes(query) || 
+               b.genre.toLowerCase().includes(query);
+      });
+    }
+
+    loadStoreCatalog(results);
+  }
+
+  /* ── QUICK-VIEW MODAL ── */
+  function openBookModal(bookId) {
+    const book = BOOKS_DATABASE.find(b => b.id === bookId);
+    if (!book) return;
+
+    const body = document.getElementById('book-modal-body');
+    body.innerHTML = `
+      <img src="${book.cover}" alt="${book.title}" style="width:200px; aspect-ratio:2/3; border-radius:10px; object-fit:cover; box-shadow:var(--shadow-lg);">
+      <div style="flex-grow:1;">
+        <h3 style="font-size:24px; margin-bottom:6px;">${book.title}</h3>
+        <p style="color:var(--accent); font-weight:600; font-size:14px; margin-bottom:16px;">By ${book.author}</p>
+        <p style="font-size:13.5px; color:var(--text); line-height:1.7; margin-bottom:20px;">${book.description}</p>
+        <div style="display:flex; gap:20px; font-size:12px; color:var(--muted); margin-bottom:24px;">
+          <div><i class="ti ti-book" style="color:var(--brand)"></i> Format: <strong>${book.format}</strong></div>
+          <div><i class="ti ti-notes" style="color:var(--brand)"></i> Pages: <strong>${book.pages}</strong></div>
+          <div><i class="ti ti-tag" style="color:var(--brand)"></i> Genre: <strong>${book.genre}</strong></div>
+        </div>
+        <div style="display:flex; align-items:center; gap:16px;">
+          <span style="font-size:22px; font-weight:700; color:var(--brand-dark)">₹${book.price}.00</span>
+          <button class="btn-primary" onclick="addToCart('${book.id}'); closeBookModal();">
+            <i class="ti ti-shopping-cart-plus"></i> Add to Order
+          </button>
+        </div>
+      </div>
+    `;
+    toggleModal('book-quickview-modal', true);
+  }
+
+  function closeBookModal() {
+    toggleModal('book-quickview-modal', false);
+  }
+
+  function toggleModal(modalId, show) {
+    const modal = document.getElementById(modalId);
+    if (show) {
+      modal.classList.add('open');
+    } else {
+      modal.classList.remove('open');
+    }
+  }
+
+  function closeModalOnOverlay(e) {
+    if (e.target.classList.contains('modal')) {
+      e.target.classList.remove('open');
+    }
+  }
+
+  /* ── INTERACTIVE ROYALTY CALCULATOR ── */
+  let selectedBinding = "paperback";
+
+  function setBinding(binding) {
+    selectedBinding = binding;
+    document.getElementById('binding-paper').classList.toggle('selected', binding === 'paperback');
+    document.getElementById('binding-hard').classList.toggle('selected', binding === 'hardcover');
+    runRoyaltyMath();
+  }
+
+  function runRoyaltyMath() {
+    const pages = parseInt(document.getElementById('calc-val-pages').value);
+    const mrp = parseInt(document.getElementById('calc-val-mrp').value);
+    const sales = parseInt(document.getElementById('calc-val-sales').value);
+
+    // Labels update
+    document.getElementById('calc-lbl-pages').textContent = `${pages} pages`;
+    document.getElementById('calc-lbl-mrp').textContent = `₹${mrp}`;
+    document.getElementById('calc-lbl-sales').textContent = `${sales} units`;
+
+    // Math models
+    const bindingBase = selectedBinding === "hardcover" ? 140 : 45;
+    const pageCostMultiplier = 0.35;
+    const printCost = bindingBase + (pages * pageCostMultiplier);
+    const distributionFee = mrp * 0.15;
+    const netProfitMargin = mrp - printCost - distributionFee;
+
+    // Royalty calculation (100% of net profits paid direct to author)
+    const monthlyNetRoyalty = Math.max(0, netProfitMargin * sales);
+    const annualNetRoyalty = monthlyNetRoyalty * 12;
+
+    // UI Updates
+    document.getElementById('calc-val-print').textContent = `₹${printCost.toFixed(2)}`;
+    document.getElementById('calc-val-dist').textContent = `₹${distributionFee.toFixed(2)}`;
+    document.getElementById('calc-val-margin').textContent = `₹${Math.max(0, netProfitMargin).toFixed(2)}`;
+    document.getElementById('calc-val-net-royalty').textContent = `₹${monthlyNetRoyalty.toLocaleString('en-IN', {maximumFractionDigits: 2})}`;
+    document.getElementById('calc-val-annual-royalty').textContent = `₹${annualNetRoyalty.toLocaleString('en-IN', {maximumFractionDigits: 2})}`;
+  }
+
+  /* ── MANUSCRIPT SUBMISSION WIZARD ── */
+  let currentWizardStep = 1;
+  const totalWizardSteps = 3;
+
+  function moveWizard(direction) {
+    if (direction === 1) {
+      if (!validateWizardStep(currentWizardStep)) return;
+    }
+
+    currentWizardStep += direction;
+    updateWizardUI();
+  }
+
+  function validateWizardStep(step) {
+    if (step === 1) {
+      const title = document.getElementById('wiz-title').value.trim();
+      const genre = document.getElementById('wiz-genre').value;
+      const words = document.getElementById('wiz-words').value;
+      if (!title || !genre || !words) {
+        alert("Please specify book coordinates prior to advancing.");
+        return false;
+      }
+    } else if (step === 2) {
+      const author = document.getElementById('wiz-author').value.trim();
+      const email = document.getElementById('wiz-email').value.trim();
+      const phone = document.getElementById('wiz-phone').value.trim();
+      if (!author || !email || !phone) {
+        alert("Please complete creator contact parameters to proceed.");
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function updateWizardUI() {
+    // Hide/show steps
+    document.querySelectorAll('.wizard-step').forEach(step => step.classList.remove('active'));
+    document.getElementById(`step-${currentWizardStep}`).classList.add('active');
+
+    // Update dots
+    for (let i = 1; i <= totalWizardSteps; i++) {
+      const dot = document.getElementById(`dot-${i}`);
+      dot.className = "wizard-step-dot";
+      if (i < currentWizardStep) {
+        dot.classList.add('completed');
+        dot.innerHTML = `<i class="ti ti-check" style="font-size:10px;"></i>`;
+      } else if (i === currentWizardStep) {
+        dot.classList.add('active');
+        dot.textContent = i;
+      } else {
+        dot.textContent = i;
+      }
+    }
+
+    // Progress bar calculate
+    const barWidth = ((currentWizardStep - 1) / (totalWizardSteps - 1)) * 100;
+    document.getElementById('wizard-progress-bar').style.width = `${barWidth}%`;
+
+    // Button states
+    document.getElementById('wiz-btn-prev').style.display = currentWizardStep > 1 ? 'block' : 'none';
+    
+    const nextBtn = document.getElementById('wiz-btn-next');
+    if (currentWizardStep === totalWizardSteps) {
+      nextBtn.textContent = "Submit Manuscript";
+      nextBtn.setAttribute('onclick', 'submitManuscript()');
+    } else {
+      nextBtn.textContent = "Next Step";
+      nextBtn.setAttribute('onclick', 'moveWizard(1)');
+    }
+  }
+
+  function triggerFileSelect() {
+    document.getElementById('manuscript-file-input').click();
+  }
+
+  function handleFileSelected(e) {
+    const file = e.target.files[0];
+    if (file) {
+      document.getElementById('file-name-display').textContent = `✓ Selected: ${file.name} (${(file.size/(1024*1024)).toFixed(2)} MB)`;
+    }
+  }
+
+  function submitManuscript() {
+    const fileInput = document.getElementById('manuscript-file-input');
+    if (!fileInput.files || fileInput.files.length === 0) {
+      alert("Please select your manuscript file to upload.");
+      return;
+    }
+
+    const container = document.getElementById('upload-progress-container');
+    const bar = document.getElementById('upload-progress-bar');
+    container.style.display = 'block';
+    
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += 5;
+      bar.style.width = `${progress}%`;
+      if (progress >= 100) {
+        clearInterval(interval);
+        completeSubmission();
+      }
+    }, 100);
+  }
+
+  function completeSubmission() {
+    const author = document.getElementById('wiz-author').value;
+    const title = document.getElementById('wiz-title').value;
+
+    toggleModal('success-modal', true);
+    document.getElementById('success-msg').innerHTML = `Dear <strong>${author}</strong>, your manuscript <strong>"${title}"</strong> has been securely uploaded to Sead Publication. Our senior review board will contact you within 48 hours.`;
+    
+    // Reset wizard
+    currentWizardStep = 1;
+    document.getElementById('wiz-title').value = "";
+    document.getElementById('wiz-genre').value = "";
+    document.getElementById('wiz-words').value = "";
+    document.getElementById('wiz-author').value = "";
+    document.getElementById('wiz-email').value = "";
+    document.getElementById('wiz-phone').value = "";
+    document.getElementById('wiz-bio').value = "";
+    document.getElementById('manuscript-file-input').value = "";
+    document.getElementById('file-name-display').textContent = "";
+    document.getElementById('upload-progress-container').style.display = 'none';
+    updateWizardUI();
+    showPage('view-home');
+  }
+
+  /* ── CHECKOUT FLOW ── */
+  function proceedToCheckout() {
+    if (shoppingCart.length === 0) {
+      alert("Your order cart is empty.");
+      return;
+    }
+    toggleCart(false);
+
+    let totalPrice = 0;
+    shoppingCart.forEach(item => {
+      const book = BOOKS_DATABASE.find(b => b.id === item.bookId);
+      if (book) totalPrice += book.price * item.qty;
+    });
+
+    document.getElementById('checkout-pay-total').textContent = `₹${totalPrice.toFixed(2)}`;
+    toggleModal('checkout-modal', true);
+  }
+
+  function simulatePayment() {
+    const name = document.getElementById('check-name').value.trim();
+    const address = document.getElementById('check-address').value.trim();
+    const card = document.getElementById('check-card').value.trim();
+    
+    if (!name || !address || !card) {
+      alert("Please complete delivery coordinates and secure transaction details.");
+      return;
+    }
+
+    toggleModal('checkout-modal', false);
+    toggleModal('success-modal', true);
+    document.getElementById('success-msg').innerHTML = `Dear <strong>${name}</strong>, your purchase has been securely captured. Your books will be dispatched to: <br><em style="font-size:12px; color:var(--muted);">${address}</em>`;
+
+    // Clear cart
+    shoppingCart = [];
+    updateCartUI();
+  }
+
+  /* ── FLOATING CHET SYSTEM ── */
+  function toggleChatBox() {
+    document.getElementById('chat-box').classList.toggle('open');
+  }
+
+  function handleChatEnter(e) {
+    if (e.key === 'Enter') {
+      sendChatMessage();
+    }
+  }
+
+  function sendChatMessage() {
+    const input = document.getElementById('chat-user-input');
+    const msgText = input.value.trim();
+    if (!msgText) return;
+
+    addChatMsg(msgText, 'user');
+    input.value = "";
+
+    // Simulated Bot Responses
+    setTimeout(() => {
+      let reply = "Our senior advisors have received your inquiry. Would you like to check our direct Royalty rates or configure a manuscript review call?";
+      if (msgText.toLowerCase().includes('royalty')) {
+        reply = "Sead guarantees 100% net profit royalties. You can calculate custom parameters on our live Royalty Calculator under For Writers.";
+      } else if (msgText.toLowerCase().includes('cost') || msgText.toLowerCase().includes('price')) {
+        reply = "Our Starter Publishing Package is configured to optimize editing and formatting for standard sizes at a low entry price point.";
+      }
+      addChatMsg(reply, 'bot');
+    }, 800);
+  }
+
+  function sendChatOption(opt) {
+    addChatMsg(opt, 'user');
+    setTimeout(() => {
+      let reply = `Excellent choice! A ${opt} has high market viability. Would you like us to explain our editing guidelines or start standard manuscript submission?`;
+      addChatMsg(reply, 'bot');
+    }, 700);
+  }
+
+  function addChatMsg(text, type) {
+    const container = document.getElementById('chat-box-messages');
+    const div = document.createElement('div');
+    div.className = `chat-msg ${type}`;
+    div.textContent = text;
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  /* ── UTILITIES ── */
+  function selectRole(el) {
+    document.querySelectorAll('.role-pill').forEach(p => p.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  function toggleFaq(btn) {
+    const answer = btn.nextElementSibling;
+    const chevron = btn.querySelector('.faq-chevron');
+    const isOpen = answer.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
+    document.querySelectorAll('.faq-chevron').forEach(c => { c.style.transform = ''; });
+    // Open clicked if it was closed
+    if (!isOpen) {
+      answer.classList.add('open');
+      chevron.style.transform = 'rotate(90deg)';
+    }
+  }
+
+  function switchAboutTab(e, panelId) {
+    document.querySelectorAll('.about-tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.about-tab-panel').forEach(p => p.classList.remove('active'));
+    
+    e.target.classList.add('active');
+    document.getElementById(panelId).classList.add('active');
+  }
+
+  function submitInquiryForm() {
+    const name = document.getElementById('contact-name').value.trim();
+    const email = document.getElementById('contact-email').value.trim();
+    const phone = document.getElementById('contact-phone').value.trim();
+    const service = document.getElementById('contact-service').value;
+
+    if (!name || !email || !phone || !service) {
+      alert("Please complete the required form coordinates prior to submitting.");
+      return;
+    }
+
+    toggleModal('success-modal', true);
+    document.getElementById('success-msg').innerHTML = `Thank you <strong>${name}</strong>. Your inquiry for <strong>${service}</strong> has been registered. An expert will reach out to you at <strong>${email}</strong> shortly.`;
+
+    document.getElementById('contact-name').value = "";
+    document.getElementById('contact-email').value = "";
+    document.getElementById('contact-phone').value = "";
+    document.getElementById('contact-service').value = "";
+  }
+
+  function handleSearch(e) {
+    if (e.key === 'Enter') {
+      const q = e.target.value.trim();
+      if (q) {
+        showPage('view-bookstore');
+        document.getElementById('store-search-input').value = q;
+        searchCatalog();
+        e.target.value = "";
+      }
+    }
+  }
+
+  function downloadBrochure() {
+    alert("Downloading Sead Publication 2026 Catalog Brochure... [Simulated]");
+  }
+
+  function openMap() {
+    window.open("https://maps.google.com/?q=Rajhans+Arcade,+Kohka+Road,+Bhilai", "_blank");
+  }
+
+  function showAboutTab(panelId) {
+    showPage('view-about');
+    const tabs = {
+      'about-us-panel': 0,
+      'team-panel': 1,
+      'certificates-panel': 2,
+      'awards-panel': 3
+    };
+    const tabBtns = document.querySelectorAll('#view-about .about-tab-btn');
+    const idx = tabs[panelId];
+    if (tabBtns[idx]) {
+      tabBtns[idx].click();
+    }
+  }
+
+  function showBlogTab(panelId) {
+    showPage('view-blog');
+    let btnId = 'blog-tab-btn';
+    if (panelId === 'announcements-panel') btnId = 'announce-tab-btn';
+    if (panelId === 'events-panel') btnId = 'events-tab-btn';
+    
+    const btn = document.getElementById(btnId);
+    if (btn) {
+      btn.click();
+    }
+  }
+
+  function switchBlogTab(e, panelId) {
+    const panels = ['blog-articles-panel', 'announcements-panel', 'events-panel'];
+    panels.forEach(p => {
+      const el = document.getElementById(p);
+      if (el) {
+        el.style.display = 'none';
+        el.classList.remove('active');
+      }
+    });
+
+    document.querySelectorAll('#view-blog .about-tab-btn').forEach(btn => btn.classList.remove('active'));
+
+    e.target.classList.add('active');
+    const targetEl = document.getElementById(panelId);
+    if (targetEl) {
+      if (panelId === 'blog-articles-panel') {
+        targetEl.style.display = 'grid';
+      } else {
+        targetEl.style.display = 'block';
+      }
+      targetEl.classList.add('active');
+    }
+  }
+
+  function submitSupportTicket() {
+    const name = document.getElementById('support-name').value.trim();
+    const email = document.getElementById('support-email').value.trim();
+    const category = document.getElementById('support-category').value;
+    const msg = document.getElementById('support-message').value.trim();
+
+    if (!name || !email || !category || !msg) {
+      alert("Please complete the required support fields prior to submitting.");
+      return;
+    }
+
+    const ticketNum = `SEAD-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+    
+    toggleModal('success-modal', true);
+    document.getElementById('success-msg').innerHTML = `Support Ticket <strong>#${ticketNum}</strong> has been created. A Senior Support Engineer has been assigned to your query: <br><br><em>"${msg.substring(0, 100)}..."</em><br><br>A notification update has been sent to: <strong>${email}</strong>.`;
+
+    document.getElementById('support-name').value = "";
+    document.getElementById('support-email').value = "";
+    document.getElementById('support-category').value = "";
+    document.getElementById('support-message').value = "";
+  }
+
+  const BLOG_ARTICLES = {
+    'Formatting': {
+      title: 'Formatting Your Book Manuscript',
+      date: 'May 12, 2026',
+      img: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&q=80&w=600',
+      content: `<p>Formatting your manuscript is a critical phase of the book production process. A poorly formatted book immediately distracts the reader and diminishes your authority. Below are the key standard parameters that we enforce at Sead Publication:</p>
+                <br>
+                <h4>1. Layout Sizing and Margins</h4>
+                <p>Standard paperback sizes in India and internationally are typically 5" x 8" or 6" x 9". Ensure your margins are configured to 0.5 inches on all sides, with an additional gutter allowance of 0.13 inches to avoid text disappearing into the center fold.</p>
+                <br>
+                <h4>2. Typography Standards</h4>
+                <p>Always utilize readable serif typefaces for the body text. Garamond (11pt), Georgia (10.5pt), or Palatino (11pt) are standard. Keep line height between 1.2x and 1.35x.</p>
+                <br>
+                <h4>3. First Line Indenting</h4>
+                <p>The first paragraph of any chapter or section should have no indent. All subsequent paragraphs must have a 0.2-inch indent. Avoid using Tab stops, as they render inconsistently in ebook formats.</p>`
+    },
+    'Cover Psychology': {
+      title: 'Visual Psychology in Book Covers',
+      date: 'April 28, 2026',
+      img: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=600',
+      content: `<p>A potential reader takes less than 3 seconds to form an initial judgment of your book based solely on the cover. How can you maximize this visual window?</p>
+                <br>
+                <h4>1. The Power of Color Theory</h4>
+                <p>Colors evoke immediate emotional states. Deep oceanic teals convey wisdom and serenity; muted golds suggest luxury and prestige; stark black/white combinations trigger mystery or intellectual weight.</p>
+                <br>
+                <h4>2. Typographic Dominance</h4>
+                <p>The title font must align with the genre. Thrillers need clean, bold sans-serif titles; literary fiction demands elegant, spaced serifs; romance collections lean toward artistic script highlights.</p>
+                <br>
+                <h4>3. Less is More</h4>
+                <p>Modern design favors minimalism. A single high-contrast visual focus is infinitely more memorable than a crowded montage of characters and scenes.</p>`
+    },
+    'Audience Building': {
+      title: 'How to Build an Author Audience',
+      date: 'March 15, 2026',
+      img: 'https://images.unsplash.com/photo-1473186578172-c141e6798cf4?auto=format&fit=crop&q=80&w=600',
+      content: `<p>Waiting until your book launch to find readers is the most common self-publishing error. Building an audience should start weeks before the book hits distribution channels.</p>
+                <br>
+                <h4>1. Claim Your Digital Profiles</h4>
+                <p>Configure your Amazon Author Page and Goodreads profile early. This establishes search visibility and aggregates your published materials in central directories.</p>
+                <br>
+                <h4>2. Distribute Advance Reader Copies (ARCs)</h4>
+                <p>Provide digital proof files to trusted reviewers, bloggers, and early supporters. Their launch-day feedback reviews are crucial for triggering Amazon's visibility algorithms.</p>
+                <br>
+                <h4>3. Social Media Content Engines</h4>
+                <p>Share character sketches, excerpt snippets, cover design options, or video trailers. Inviting your network to vote on cover designs creates immediate emotional investment.</p>`
+    }
+  };
+
+  function readArticle(articleId) {
+    const article = BLOG_ARTICLES[articleId];
+    if (!article) return;
+
+    const body = document.getElementById('blog-reader-body');
+    body.innerHTML = `
+      <img src="${article.img}" alt="${article.title}" style="width:100%; height:240px; object-fit:cover; border-radius:12px; margin-bottom:20px; box-shadow:var(--shadow-md);">
+      <div style="font-size:11px; color:var(--accent); font-weight:600; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">${article.date}</div>
+      <h3 style="font-size:26px; margin-bottom:16px; font-family:'Playfair Display',serif;">${article.title}</h3>
+      <div style="font-size:14px; color:var(--text); line-height:1.8;">${article.content}</div>
+    `;
+    toggleModal('blog-reader-modal', true);
+  }
+
+  /* ── INITIALIZATION ── */
+  window.addEventListener('DOMContentLoaded', () => {
+    loadFeaturedBooks();
+    loadStoreCatalog();
+    runRoyaltyMath();
+  });
+</script>
+</body>
+</html>
